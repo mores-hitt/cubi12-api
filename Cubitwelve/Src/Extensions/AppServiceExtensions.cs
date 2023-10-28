@@ -43,15 +43,11 @@ namespace Cubitwelve.Src.Extensions
 
         private static void AddAutoMapper(IServiceCollection services)
         {
-
+            services.AddAutoMapper(typeof(Program).Assembly);
         }
 
 
 
 
-    }
-
-    internal class RoleRepository
-    {
     }
 }
