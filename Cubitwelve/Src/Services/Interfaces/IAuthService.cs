@@ -8,6 +8,6 @@ namespace Cubitwelve.Src.Services.Interfaces
 
         public Task<string?> Login(LoginUserDto loginUserDto);
 
-        public Task<string?> EditProfile(string id, EditProfileDto editProfileDto);
+        public Task<string?> EditProfile(int id, EditProfileDto editProfileDto);
     }
 }
