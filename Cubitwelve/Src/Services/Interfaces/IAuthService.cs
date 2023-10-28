@@ -4,7 +4,7 @@ namespace Cubitwelve.Src.Services.Interfaces
 {
     public interface IAuthService
     {
-        public Task<string> RegisterClient(RegisterStudentDto registerClientDto);
+        public Task<string> RegisterStudent(RegisterStudentDto registerStudentDto);
 
         public Task<string?> Login(LoginUserDto loginUserDto);
     }
