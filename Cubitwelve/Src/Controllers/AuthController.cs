@@ -29,5 +29,13 @@ namespace Cubitwelve.Src.Controllers
             var token = await _authService.RegisterStudent(registerStudentDto);
             return token;
         }
+
+        [HttpPost("update-profile/{id}")]
+        public async Task<ActionResult<string>> UpdateProfile(string id, EditProfileDto editProfileDto)
+        {
+            // var token = await _authService.UpdateProfile(id, editProfileDto);
+            // return token;
+            return "";
+        }
     }
 }
