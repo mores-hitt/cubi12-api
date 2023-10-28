@@ -1,6 +1,6 @@
 
 
-using Cubitwelve.Src.DTOs;
+using Cubitwelve.Src.Auth.DTOs;
 using Cubitwelve.Src.Models;
 
 namespace Cubitwelve.Src.Services.Interfaces

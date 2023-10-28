@@ -1,5 +1,5 @@
 using AutoMapper;
-using Cubitwelve.Src.DTOs;
+using Cubitwelve.Src.Auth.DTOs;
 using Cubitwelve.Src.Models;
 using Cubitwelve.Src.Services.Interfaces;
 
