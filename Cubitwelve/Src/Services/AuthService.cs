@@ -31,12 +31,15 @@ namespace Cubitwelve.Src.Services
             var user = await _usersRepository.GetById(id);
             if (user is null) return null;
 
-            var mappedUser = _mapperService.EditProfileDtoToUser(editProfileDto);
-            mappedUser.Id = id;
+            user.Name = editProfileDto.Name;
+            user.FirstLastName = editProfileDto.FirstLastName;
+            user.SecondLastName = editProfileDto.SecondLastName;
+            user.Career = editProfileDto.Career;
+            user.Email = editProfileDto.Email;
 
-            
-            
-            return "";
+            var updatedUser = _usersRepository.Update(user);
+
+            return CreateToken(updatedUser);
         }
 
         public async Task<string?> Login(LoginUserDto loginUserDto)

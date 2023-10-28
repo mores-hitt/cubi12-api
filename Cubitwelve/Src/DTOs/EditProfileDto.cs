@@ -14,9 +14,6 @@ namespace Cubitwelve.Src.DTOs
         public string SecondLastName { get; set; } = null!;
 
         [Required]
-        public string RUT { get; set; } = null!;
-
-        [Required]
         [EmailAddress]
         public string Email { get; set; } = null!;
 
