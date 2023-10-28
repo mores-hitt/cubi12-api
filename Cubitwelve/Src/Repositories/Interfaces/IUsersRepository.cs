@@ -11,5 +11,7 @@ namespace Cubitwelve.Src.Repositories.Interfaces
         public Task<List<User>> GetAll();
 
         public Task<User> Add(User user);
+
+        public User Update(User user);
     }
 }
