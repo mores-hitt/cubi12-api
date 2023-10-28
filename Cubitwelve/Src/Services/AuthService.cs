@@ -19,14 +19,14 @@ namespace Cubitwelve.Src.Services
             _mapperService = mapperService;
         }
 
-        public Task<string?> Login(LoginUserDto loginUserDto)
+        public async Task<string?> Login(LoginUserDto loginUserDto)
         {
-            throw new NotImplementedException();
+            return "jwt";
         }
 
-        public Task<string> RegisterClient(RegisterStudentDto registerClientDto)
+        public async Task<string> RegisterClient(RegisterStudentDto registerClientDto)
         {
-            throw new NotImplementedException();
+            return "jwt";
         }
     }
 }

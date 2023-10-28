@@ -32,6 +32,7 @@ namespace Cubitwelve.Src.Extensions
         private static void AddServices(IServiceCollection services)
         {
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IMapperService, MapperService>();
         }
 
         private static void AddDbContext(IServiceCollection services)
