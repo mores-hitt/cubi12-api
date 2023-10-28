@@ -32,7 +32,7 @@ namespace Cubitwelve.Src.Services
             if (user is null) return null;
 
             
-
+            
 
             return "";
         }

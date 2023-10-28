@@ -9,6 +9,7 @@ namespace Cubitwelve.Src.Extensions
         public MappingProfile()
         {
             CreateMap<RegisterStudentDto, User>();
+            CreateMap<EditProfileDto, User>();
         }
     }
 }
