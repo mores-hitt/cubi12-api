@@ -15,13 +15,15 @@ namespace Cubitwelve.Src.Services
         private readonly IUsersRepository _usersRepository;
         private readonly IConfiguration _configuration;
         private readonly IMapperService _mapperService;
+        private readonly IRolesRepository _rolesRepository;
 
         public AuthService(IUsersRepository usersRepository, IConfiguration configuration,
-                            IMapperService mapperService)
+                            IMapperService mapperService, IRolesRepository rolesRepository)
         {
             _usersRepository = usersRepository;
             _configuration = configuration;
             _mapperService = mapperService;
+            _rolesRepository = rolesRepository;
         }
 
         public async Task<string?> Login(LoginUserDto loginUserDto)
@@ -44,7 +46,7 @@ namespace Cubitwelve.Src.Services
             var mappedUser = _mapperService.RegisterClientDtoToUser(registerStudentDto);
             // Ensure fill fields not mapped
             mappedUser.HashedPassword = passwordHash;
-            mappedUser.RoleId = 1; //TODO: Avoid hardcoded role
+            mappedUser.RoleId = _rolesRepository.GetStudentRole().Id;
 
             var user = await _usersRepository.Add(mappedUser);
             var token = CreateToken(user);
