@@ -26,6 +26,17 @@ namespace Cubitwelve.Src.Services
             _rolesRepository = rolesRepository;
         }
 
+        public async Task<string?> EditProfile(string id, EditProfileDto editProfileDto)
+        {
+            var user = await _usersRepository.GetByEmail(editProfileDto.Email);
+            if (user is null) return null;
+
+            
+
+
+            return "";
+        }
+
         public async Task<string?> Login(LoginUserDto loginUserDto)
         {
             var user = await _usersRepository.GetByEmail(loginUserDto.Email);
