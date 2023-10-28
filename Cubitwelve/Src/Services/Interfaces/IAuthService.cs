@@ -1,4 +1,4 @@
-using Cubitwelve.Src.DTOs;
+using Cubitwelve.Src.Auth.DTOs;
 
 namespace Cubitwelve.Src.Services.Interfaces
 {

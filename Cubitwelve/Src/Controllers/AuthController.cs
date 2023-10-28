@@ -1,4 +1,4 @@
-using Cubitwelve.Src.DTOs;
+using Cubitwelve.Src.Auth.DTOs;
 using Cubitwelve.Src.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +29,7 @@ namespace Cubitwelve.Src.Controllers
             var token = await _authService.RegisterStudent(registerStudentDto);
             return token;
         }
-
+        
         [HttpPut("update-profile/{id}")]
         public async Task<ActionResult<string>> UpdateProfile(int id, EditProfileDto editProfileDto)
         {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Cubitwelve.Src.DTOs
+namespace Cubitwelve.Src.Auth.DTOs
 {
     public class RegisterStudentDto
     {

@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Cubitwelve.Src.DTOs;
+using Cubitwelve.Src.Auth.DTOs;
 using Cubitwelve.Src.Models;
 using Cubitwelve.Src.Repositories.Interfaces;
 using Cubitwelve.Src.Services.Interfaces;
