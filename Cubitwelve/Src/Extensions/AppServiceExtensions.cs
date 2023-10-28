@@ -12,9 +12,9 @@ namespace Cubitwelve.Src.Extensions
         public static void AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
             AddSwaggerGen(services);
+            AddDbContext(services);
             AddRepositories(services);
             AddServices(services);
-            AddDbContext(services);
             AddAutoMapper(services);
         }
 
@@ -43,7 +43,7 @@ namespace Cubitwelve.Src.Extensions
 
         private static void AddAutoMapper(IServiceCollection services)
         {
-            
+
         }
 
 
