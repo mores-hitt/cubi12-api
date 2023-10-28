@@ -1,6 +1,6 @@
 namespace Cubitwelve.Src.Models
 {
-    public class Role
+    public class Role : BaseModel
     {
         public string Name { get; set; } = null!;
 

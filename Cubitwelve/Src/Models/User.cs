@@ -1,6 +1,6 @@
 namespace Cubitwelve.Src.Models
 {
-    public class User
+    public class User : BaseModel
     {
         public string Name { get; set; } = null!;
 
@@ -18,7 +18,7 @@ namespace Cubitwelve.Src.Models
 
         public bool IsEnabled { get; set; } = true;
 
-        
+
         public int RoleId { get; set; }
         public Role Role { get; set; } = null!;
     }
