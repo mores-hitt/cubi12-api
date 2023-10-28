@@ -1,15 +1,14 @@
 using Cubitwelve.Src.Extensions;
 
-var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var angularOrigins = "angularOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
+    options.AddPolicy(name: angularOrigins,
                       policy  =>
                       {
-                          policy.WithOrigins("http://localhost:3000/",
-                                              "http://localhost:5500/");
+                          policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
                       });
 });
 
@@ -33,7 +32,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors(MyAllowSpecificOrigins);
+app.UseCors(angularOrigins);
 
 app.UseAuthorization();
 
