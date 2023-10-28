@@ -1,4 +1,5 @@
 using Cubitwelve.Src.Auth.DTOs;
+using Cubitwelve.Src.DTOs.Auth;
 using Cubitwelve.Src.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,29 +14,38 @@ namespace Cubitwelve.Src.Controllers
             _authService = authService;
         }
 
+        [ProducesResponseType(typeof(LoginResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(LoginUserDto loginUserDto)
+        public async Task<ActionResult<LoginResponseDto>> Login(LoginUserDto loginUserDto)
         {
-            var jwt = await _authService.Login(loginUserDto);
+            var loginResponse = await _authService.Login(loginUserDto);
 
-            if (jwt is null) return BadRequest("Invalid Credentials");
-
-            return jwt;
+            if (loginResponse is null) return BadRequest("Invalid Credentials");
+            return loginResponse;
         }
 
+        [ProducesResponseType(typeof(LoginResponseDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost("register")]
-        public async Task<ActionResult<string>> Register(RegisterStudentDto registerStudentDto)
+        public async Task<ActionResult<LoginResponseDto>> Register(RegisterStudentDto registerStudentDto)
         {
-            var token = await _authService.RegisterStudent(registerStudentDto);
-            return token;
+            var loginResponse = await _authService.RegisterStudent(registerStudentDto);
+
+            if (loginResponse is null) return BadRequest("Error Registering Student");
+            return CreatedAtAction(nameof(Login), loginResponse);
+
         }
-        
+
+        [ProducesResponseType(typeof(LoginResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("update-profile/{id}")]
-        public async Task<ActionResult<string>> UpdateProfile(int id, EditProfileDto editProfileDto)
+        public async Task<ActionResult<LoginResponseDto>> UpdateProfile(int id, EditProfileDto editProfileDto)
         {
-            var token = await _authService.EditProfile(id, editProfileDto);
-            if (token is null) return BadRequest("Cannot update profile");
-            return token;
+            var loginResponse = await _authService.EditProfile(id, editProfileDto);
+
+            if (loginResponse is null) return BadRequest("Cannot update profile");
+            return loginResponse;
         }
     }
 }

@@ -1,13 +1,14 @@
 using Cubitwelve.Src.Auth.DTOs;
+using Cubitwelve.Src.DTOs.Auth;
 
 namespace Cubitwelve.Src.Services.Interfaces
 {
     public interface IAuthService
     {
-        public Task<string> RegisterStudent(RegisterStudentDto registerStudentDto);
+        public Task<LoginResponseDto?> RegisterStudent(RegisterStudentDto registerStudentDto);
 
-        public Task<string?> Login(LoginUserDto loginUserDto);
+        public Task<LoginResponseDto?> Login(LoginUserDto loginUserDto);
 
-        public Task<string?> EditProfile(int id, EditProfileDto editProfileDto);
+        public Task<LoginResponseDto?> EditProfile(int id, EditProfileDto editProfileDto);
     }
 }
