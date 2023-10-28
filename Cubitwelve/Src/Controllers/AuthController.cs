@@ -30,7 +30,7 @@ namespace Cubitwelve.Src.Controllers
             return token;
         }
 
-        [HttpPost("update-profile/{id}")]
+        [HttpPut("update-profile/{id}")]
         public async Task<ActionResult<string>> UpdateProfile(int id, EditProfileDto editProfileDto)
         {
             var token = await _authService.EditProfile(id, editProfileDto);
