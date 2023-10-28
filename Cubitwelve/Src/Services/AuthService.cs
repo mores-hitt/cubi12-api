@@ -36,12 +36,12 @@ namespace Cubitwelve.Src.Services
             return token;
         }
 
-        public async Task<string> RegisterClient(RegisterStudentDto registerClientDto)
+        public async Task<string> RegisterStudent(RegisterStudentDto registerStudentDto)
         {
             var salt = BCrypt.Net.BCrypt.GenerateSalt(12);
-            string passwordHash = BCrypt.Net.BCrypt.HashPassword(registerClientDto.Password, salt);
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(registerStudentDto.Password, salt);
 
-            var mappedUser = _mapperService.RegisterClientDtoToUser(registerClientDto);
+            var mappedUser = _mapperService.RegisterClientDtoToUser(registerStudentDto);
             // Ensure fill fields not mapped
             mappedUser.HashedPassword = passwordHash;
             mappedUser.RoleId = 1; //TODO: Avoid hardcoded role

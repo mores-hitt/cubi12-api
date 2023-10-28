@@ -22,5 +22,12 @@ namespace Cubitwelve.Src.Controllers
 
             return jwt;
         }
+
+        [HttpPost("register")]
+        public async Task<ActionResult<string>> Register(RegisterStudentDto registerStudentDto)
+        {
+            var token = await _authService.RegisterStudent(registerStudentDto);
+            return token;
+        }
     }
 }
