@@ -18,7 +18,7 @@ namespace Cubitwelve.Src.Controllers
         {
             var jwt = await _authService.Login(loginUserDto);
 
-            if(jwt is null) return BadRequest("Invalid Credentials");
+            if (jwt is null) return BadRequest("Invalid Credentials");
 
             return jwt;
         }
@@ -27,6 +27,14 @@ namespace Cubitwelve.Src.Controllers
         public async Task<ActionResult<string>> Register(RegisterStudentDto registerStudentDto)
         {
             var token = await _authService.RegisterStudent(registerStudentDto);
+            return token;
+        }
+
+        [HttpPost("update-profile/{id}")]
+        public async Task<ActionResult<string>> UpdateProfile(int id, EditProfileDto editProfileDto)
+        {
+            var token = await _authService.EditProfile(id, editProfileDto);
+            if (token is null) return BadRequest("Cannot update profile");
             return token;
         }
     }

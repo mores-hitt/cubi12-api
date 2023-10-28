@@ -7,7 +7,7 @@ namespace Cubitwelve.Src.Repositories
 {
     public class UsersRepository : IUsersRepository
     {
-         private readonly DataContext _context;
+        private readonly DataContext _context;
 
         public UsersRepository(DataContext context)
         {
@@ -39,6 +39,14 @@ namespace Cubitwelve.Src.Repositories
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             return user;
+        }
+
+        public User Update(User user)
+        {
+            var updatedUser = _context.Users.Update(user).Entity;
+            updatedUser.UpdatedAt = DateTime.UtcNow;
+            _context.SaveChanges();
+            return updatedUser;
         }
     }
 }

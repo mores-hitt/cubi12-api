@@ -14,7 +14,13 @@ namespace Cubitwelve.Src.Services
         {
             _mapper = mapper;
         }
-        
+
+        public User EditProfileDtoToUser(EditProfileDto editProfileDto)
+        {
+            var mappedUser = _mapper.Map<User>(editProfileDto);
+            return mappedUser;
+        }
+
         public User RegisterClientDtoToUser(RegisterStudentDto registerStudentDto)
         {
             var mappedUser = _mapper.Map<User>(registerStudentDto);
