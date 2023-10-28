@@ -1,4 +1,6 @@
 using AutoMapper;
+using Cubitwelve.Src.DTOs;
+using Cubitwelve.Src.Models;
 
 namespace Cubitwelve.Src.Extensions
 {
@@ -6,7 +8,7 @@ namespace Cubitwelve.Src.Extensions
     {
         public MappingProfile()
         {
-            
+            CreateMap<RegisterStudentDto, User>();
         }
     }
 }

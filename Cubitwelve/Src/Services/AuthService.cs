@@ -38,7 +38,17 @@ namespace Cubitwelve.Src.Services
 
         public async Task<string> RegisterClient(RegisterStudentDto registerClientDto)
         {
-            return "jwt";
+            var salt = BCrypt.Net.BCrypt.GenerateSalt(12);
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(registerClientDto.Password, salt);
+
+            var mappedUser = _mapperService.RegisterClientDtoToUser(registerClientDto);
+            // Ensure fill fields not mapped
+            mappedUser.HashedPassword = passwordHash;
+            mappedUser.RoleId = 1; //TODO: Avoid hardcoded role
+
+            var user = await _usersRepository.Add(mappedUser);
+            var token = CreateToken(user);
+            return token;
         }
 
         private string CreateToken(User user)
