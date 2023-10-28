@@ -38,5 +38,5 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
 app.MapControllers();
-
+AppSeedService.SeedDatabase(app);
 app.Run();
