@@ -1,7 +1,10 @@
 using Cubitwelve.Src.Data;
 using Microsoft.EntityFrameworkCore;
+using DotNetEnv;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 
@@ -10,15 +13,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Replace with your connection string.
-var connectionString = "server=localhost;user=cubitwelve;password=my_password;database=cubitwelve";
-var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
+// Load Database Connect Settings
+Env.Load();
 
+var user = Env.GetString("DB_USER");
+var password = Env.GetString("DB_PASSWORD");
+var database = Env.GetString("DB_DATABASE");
+var connectionString = $"server=localhost;user={user};password={password};database={database}";
+
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
+// Inject DbContext
 builder.Services.AddDbContext<DataContext>(opt =>
                 opt
                 .UseMySql(connectionString, serverVersion)
-                // The following three options help with debugging, but should
-                // be changed or removed for production.
+                // FIXME: Remove the following 3 lines in production
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors()
