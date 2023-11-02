@@ -34,6 +34,7 @@ namespace Cubitwelve.Src.Data
         private static void SeedFirstOrderTables(DataContext context, JsonSerializerOptions options)
         {
             SeedRoles(context, options);
+            SeedSubjects(context, options);
             context.SaveChanges();
         }
 
@@ -52,7 +53,32 @@ namespace Cubitwelve.Src.Data
             var rolesList = JsonSerializer.Deserialize<List<Role>>(rolesData, options) ??
                 throw new Exception("RolesData.json is empty");
 
-            context.Roles?.AddRange(rolesList); //Cannot be null because of the first if statement
+            context.Roles?.AddRange(rolesList);
+            context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Seed the database with the subjects in the json file if the database is empty.
+        /// </summary>
+        /// <param name="context">Database context</param>
+        /// <param name="options">Options to deserialize json</param>
+        private static void SeedSubjects(DataContext context, JsonSerializerOptions options)
+        {
+            var result = context.Subjects?.Any();
+            if (result is true or null) return;
+            // Fix the path of ReadAllText to the correct one
+            var path = "Src/Data/DataSeeders/SubjectsData.json";
+            var subjectsData = File.ReadAllText(path);
+            var subjectsList = JsonSerializer.Deserialize<List<Subject>>(subjectsData, options) ??
+                throw new Exception("SubjectsData.json is empty");
+            // Normalize the name and department of the subjects
+            subjectsList.ForEach(s =>
+            {
+                s.Name = s.Name.ToLower();
+                s.Department = s.Department.ToLower();
+            });
+
+            context.Subjects?.AddRange(subjectsList);
             context.SaveChanges();
         }
 
