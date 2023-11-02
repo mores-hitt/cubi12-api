@@ -13,11 +13,6 @@ namespace Cubitwelve.Src.Repositories
             _context = context;
         }
 
-        public void SaveChanges()
-        {
-            _context.SaveChanges();
-        }
-
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposed)
