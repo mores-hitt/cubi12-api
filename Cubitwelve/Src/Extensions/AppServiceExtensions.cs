@@ -15,7 +15,7 @@ namespace Cubitwelve.Src.Extensions
 
         private static void InitEnvironmentVariables()
         {
-            DotNetEnv.Env.Load();
+            Env.Load();
         }
 
         private static void AddSwaggerGen(IServiceCollection services)
