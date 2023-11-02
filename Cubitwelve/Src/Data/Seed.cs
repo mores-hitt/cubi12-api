@@ -46,8 +46,9 @@ namespace Cubitwelve.Src.Data
         {
             var result = context.Roles?.Any();
             if (result is true or null) return;
-
-            var rolesData = File.ReadAllText("Data/Seeds/RolesData.json");
+            // Fix the path of ReadAllText to the correct one
+            var path = "Src/Data/DataSeeders/RolesData.json";
+            var rolesData = File.ReadAllText(path);
             var rolesList = JsonSerializer.Deserialize<List<Role>>(rolesData, options) ??
                 throw new Exception("RolesData.json is empty");
 

@@ -1,6 +1,7 @@
 using Cubitwelve.Src.Data;
 using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
+using Cubitwelve.Src.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,5 +47,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Create, migrate and seed database
+AppSeedService.SeedDatabase(app);
 
 app.Run();
