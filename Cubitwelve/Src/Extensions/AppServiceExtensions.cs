@@ -1,29 +1,15 @@
-using Cubitwelve.Src.Data;
-using Microsoft.EntityFrameworkCore;
-
 namespace Cubitwelve.Src.Extensions
 {
-    public static class AppSeedService
+    public static class AppServiceExtensions
     {
-        /// <summary>
-        /// Calls the seed method to populate the database with example data.
-        /// </summary>
-        /// <param name="app">Singleton WebApplication</param>
-        public static void SeedDatabase(WebApplication app)
+        public static void AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
-            var scope = app.Services.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<DataContext>();
-            var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-            try
-            {
-                // Migrate the database, create if it doesn't exist
-                context.Database.Migrate();
-                Seed.SeedData(context);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, " A problem ocurred during seeding ");
-            }
+            AddSwaggerGen(services);
+        }
+
+        private static void AddSwaggerGen(IServiceCollection services)
+        {
+            services.AddSwaggerGen();
         }
     }
 }
