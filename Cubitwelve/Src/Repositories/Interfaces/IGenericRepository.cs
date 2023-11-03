@@ -39,6 +39,10 @@ namespace Cubitwelve.Src.Repositories.Interfaces
         /// </summary>
         /// <param name="id">The unique identifier of the entity to be deleted.</param>
         /// <returns>A task representing the asynchronous delete operation.</returns>
+        /// <remarks>
+        /// This method performs a hard delete operation, removing the entity from the database permanently.
+        /// It is recommended to consider using softDelete method instead.
+        /// </remarks>
         Task Delete(object id);
 
         /// <summary>
@@ -46,7 +50,25 @@ namespace Cubitwelve.Src.Repositories.Interfaces
         /// </summary>
         /// <param name="entityToDelete">The entity to be deleted.</param>
         /// <returns>A task representing the asynchronous delete operation.</returns>
+        /// <remarks>
+        /// This method performs a hard delete operation, removing the entity from the database permanently.
+        /// It is recommended to consider using softDelete method instead.
+        /// </remarks>
         Task Delete(TEntity entityToDelete);
+
+        /// <summary>
+        /// Soft Deletes an entity from the repository based on its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the entity to be soft-deleted.</param>
+        /// <returns>A task representing the asynchronous soft-delete operation.</returns>
+        Task SoftDelete(object id);
+
+        /// <summary>
+        /// Soft Deletes the specified entity from the repository.
+        /// </summary>
+        /// <param name="entityToDelete">The entity to be soft-deleted.</param>
+        /// <returns>A task representing the asynchronous soft-delete operation.</returns>
+        Task SoftDelete(TEntity entityToDelete);
 
         /// <summary>
         /// Updates an existing entity in the repository.

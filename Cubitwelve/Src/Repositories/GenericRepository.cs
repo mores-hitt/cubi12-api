@@ -17,31 +17,19 @@ namespace Cubitwelve.Src.Repositories
             this.dbSet = context.Set<TEntity>();
         }
 
-        public virtual async Task Delete(object id)
-        {
-            TEntity? entityToDelete = dbSet.Find(id)
-                                        ?? throw new Exception("Entity not found");
-            await Delete(entityToDelete);
-        }
-
-        public virtual async Task Delete(TEntity entityToDelete)
-        {
-            if (context.Entry(entityToDelete).State == EntityState.Detached)
-            {
-                dbSet.Attach(entityToDelete);
-            }
-            dbSet.Remove(entityToDelete);
-
-            var result = await context.SaveChangesAsync() > 0;
-            if (!result) throw new Exception("Error deleting entity");
-        }
-
         public virtual async Task<List<TEntity>> Get(
             Expression<Func<TEntity, bool>>? filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
             string includeProperties = "")
         {
             IQueryable<TEntity> query = dbSet;
+
+
+            if (typeof(BaseModel).IsAssignableFrom(typeof(TEntity)))
+            {
+                //Ignore warning, the if statement above ensures that TEntity is BaseModel
+                query = query.Where(x => (x as BaseModel).DeletedAt == null);
+            }
 
             if (filter is not null)
             {
@@ -63,7 +51,13 @@ namespace Cubitwelve.Src.Repositories
 
         public virtual async Task<TEntity?> GetByID(object id)
         {
-            return await dbSet.FindAsync(id);
+            var entity = await dbSet.FindAsync(id);
+            if (entity is BaseModel baseModel && baseModel.DeletedAt is not null)
+            {
+                return null;
+            }
+            return entity;
+
         }
 
         public virtual async Task<TEntity> Insert(TEntity entity)
@@ -72,6 +66,51 @@ namespace Cubitwelve.Src.Repositories
 
             await context.SaveChangesAsync();
             return entity;
+        }
+
+        public async Task SoftDelete(TEntity entityToDelete)
+        {
+            if (entityToDelete is BaseModel baseModel)
+            {
+                if (baseModel.DeletedAt is not null)
+                    throw new Exception("Entity not found");
+
+                baseModel.DeletedAt = DateTime.Now;
+            }
+
+            dbSet.Attach(entityToDelete);
+            context.Entry(entityToDelete).State = EntityState.Modified;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task SoftDelete(object id)
+        {
+            TEntity? entityToDelete = dbSet.Find(id)
+                                        ?? throw new Exception("Entity not found");
+            if (entityToDelete is BaseModel baseModel && baseModel.DeletedAt is null)
+            {
+                throw new Exception("Entity not found");
+            }
+            await SoftDelete(entityToDelete);
+        }
+
+        public virtual async Task Delete(object id)
+        {
+            TEntity? entityToDelete = dbSet.Find(id)
+                                        ?? throw new Exception("Entity not found");
+            await Delete(entityToDelete);
+        }
+
+        public virtual async Task Delete(TEntity entityToDelete)
+        {
+            if (context.Entry(entityToDelete).State == EntityState.Detached)
+            {
+                dbSet.Attach(entityToDelete);
+            }
+            dbSet.Remove(entityToDelete);
+
+            var result = await context.SaveChangesAsync() > 0;
+            if (!result) throw new Exception("Error deleting entity");
         }
 
         public virtual async Task<TEntity> Update(TEntity entityToUpdate)
