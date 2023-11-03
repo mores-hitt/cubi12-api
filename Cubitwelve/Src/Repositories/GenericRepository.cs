@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Cubitwelve.Src.Data;
+using Cubitwelve.Src.Exceptions;
 using Cubitwelve.Src.Models;
 using Cubitwelve.Src.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -73,7 +74,7 @@ namespace Cubitwelve.Src.Repositories
             if (entityToDelete is BaseModel baseModel)
             {
                 if (baseModel.DeletedAt is not null)
-                    throw new Exception("Entity not found");
+                    throw new EntityNotDeletedException($"Entity: {entityToDelete} cannot be deleted");
 
                 baseModel.DeletedAt = DateTime.Now;
             }
@@ -85,19 +86,21 @@ namespace Cubitwelve.Src.Repositories
 
         public async Task SoftDelete(object id)
         {
-            TEntity? entityToDelete = dbSet.Find(id)
-                                        ?? throw new Exception("Entity not found");
+            TEntity? entityToDelete = dbSet.Find(id) ??
+                throw new EntityNotDeletedException($"Entity with Id: {id} cannot be deleted");
+
             if (entityToDelete is BaseModel baseModel && baseModel.DeletedAt is null)
             {
-                throw new Exception("Entity not found");
+                throw new EntityNotDeletedException($"Entity: {entityToDelete} cannot be deleted");
             }
             await SoftDelete(entityToDelete);
         }
 
         public virtual async Task Delete(object id)
         {
-            TEntity? entityToDelete = dbSet.Find(id)
-                                        ?? throw new Exception("Entity not found");
+            TEntity? entityToDelete = dbSet.Find(id) ??
+                throw new EntityNotDeletedException($"Entity with Id: {id} cannot be deleted");
+
             await Delete(entityToDelete);
         }
 
@@ -110,7 +113,7 @@ namespace Cubitwelve.Src.Repositories
             dbSet.Remove(entityToDelete);
 
             var result = await context.SaveChangesAsync() > 0;
-            if (!result) throw new Exception("Error deleting entity");
+            if (!result) throw new EntityNotDeletedException($"Entity: {entityToDelete} cannot be deleted");
         }
 
         public virtual async Task<TEntity> Update(TEntity entityToUpdate)

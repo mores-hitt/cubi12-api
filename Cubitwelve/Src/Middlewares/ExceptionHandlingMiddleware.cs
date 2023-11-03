@@ -1,6 +1,7 @@
 using Cubitwelve.Src.Common.Constants;
 using Cubitwelve.Src.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Authentication;
 using System.Text.Json;
 
 
@@ -28,9 +29,21 @@ namespace Cubitwelve.Src.Middlewares
             {
                 await _next(context);
             }
-            catch (UserNotFoundException ex)
+            catch (InvalidCredentialException ex)
             {
-                await GenerateHttpResponse(ex, context, ErrorMessages.UserNotFound, 404);
+                await GenerateHttpResponse(ex, context, ErrorMessages.InvalidCredentials, 404);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                await GenerateHttpResponse(ex, context, ErrorMessages.EntityNotFound, 404);
+            }
+            catch (EntityNotDeletedException ex)
+            {
+                await GenerateHttpResponse(ex, context, ErrorMessages.EntityNotDeleted, 400);
+            }
+            catch (InvalidJwtException ex)
+            {
+                await GenerateHttpResponse(ex, context, ErrorMessages.InternalServerError, 500);
             }
         }
 
@@ -61,7 +74,7 @@ namespace Cubitwelve.Src.Middlewares
         }
     }
 
-    public static class RequestCultureMiddlewareExtensions
+    public static class ExceptionHandlingMiddlewareExtensions
     {
         public static IApplicationBuilder UseExceptionHandling(
             this IApplicationBuilder builder)
