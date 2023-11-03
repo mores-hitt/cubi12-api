@@ -13,6 +13,7 @@ namespace Cubitwelve.Src.Extensions
             CreateMap<Role, RoleDto>();
             CreateMap<User, UserDto>();
             CreateMap<User, LoginResponseDto>();
+            CreateMap<RegisterStudentDto, User>();
         }
     }
 }
