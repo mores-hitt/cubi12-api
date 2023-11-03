@@ -8,6 +8,7 @@ using Cubitwelve.Src.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.OpenApi.Models;
 
 namespace Cubitwelve.Src.Extensions
 {
@@ -37,7 +38,10 @@ namespace Cubitwelve.Src.Extensions
 
         private static void AddSwaggerGen(IServiceCollection services)
         {
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cubitwelve API", Version = "v1" })
+            );
+
         }
 
         private static void AddDbContext(IServiceCollection services)
