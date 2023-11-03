@@ -22,13 +22,23 @@ namespace Cubitwelve.Src.Repositories
             return users;
         }
 
-        public Task<User?> GetByEmail(string email)
+        public async Task<User?> GetByEmail(string email)
         {
-            var user = dbSet
+            var user = await dbSet
                         .Where(softDeleteFilter)
                         .Include(x => x.Role)
                         .Include(x => x.Career)
                         .FirstOrDefaultAsync(x => x.Email == email);
+            return user;
+        }
+
+        public async Task<User?> GetByRut(string rut)
+        {
+            var user = await dbSet
+                        .Where(softDeleteFilter)
+                        .Include(x => x.Role)
+                        .Include(x => x.Career)
+                        .FirstOrDefaultAsync(x => x.RUT == rut);
             return user;
         }
     }
