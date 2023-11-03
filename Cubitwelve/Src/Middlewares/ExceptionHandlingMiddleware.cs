@@ -41,7 +41,7 @@ namespace Cubitwelve.Src.Middlewares
             {
                 await GenerateHttpResponse(ex, context, ErrorMessages.EntityNotDeleted, 400);
             }
-            catch (InvalidJwtException ex)
+            catch (Exception ex) when (ex is InvalidJwtException || ex is InternalErrorException)
             {
                 await GenerateHttpResponse(ex, context, ErrorMessages.InternalServerError, 500);
             }
