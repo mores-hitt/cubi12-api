@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
 using Cubitwelve.Src.Repositories;
 using Cubitwelve.Src.Repositories.Interfaces;
+using Cubitwelve.Src.Services.Interfaces;
+using Cubitwelve.Src.Services;
 
 namespace Cubitwelve.Src.Extensions
 {
@@ -11,15 +13,23 @@ namespace Cubitwelve.Src.Extensions
         public static void AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
             InitEnvironmentVariables();
+            AddAutoMapper(services);
+            AddServices(services);
             AddSwaggerGen(services);
             AddDbContext(services);
             AddUnitOfWork(services);
-            AddAutoMapper(services);
+            
         }
 
         private static void InitEnvironmentVariables()
         {
             Env.Load();
+        }
+
+        private static void AddServices(IServiceCollection services)
+        {
+            services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IMapperService, MapperService>();
         }
 
         private static void AddSwaggerGen(IServiceCollection services)
