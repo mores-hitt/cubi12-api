@@ -1,6 +1,8 @@
+using Cubitwelve.Src.Models;
+
 namespace Cubitwelve.Src.Repositories.Interfaces
 {
-    public interface IUsersRepository
+    public interface IUsersRepository : IGenericRepository<User>
     {
         
     }
