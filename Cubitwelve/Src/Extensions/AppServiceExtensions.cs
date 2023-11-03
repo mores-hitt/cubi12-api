@@ -37,6 +37,7 @@ namespace Cubitwelve.Src.Extensions
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IMapperService, MapperService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ICareersService, CareersService>();
         }
 
         private static void AddSwaggerGen(IServiceCollection services)
