@@ -29,27 +29,29 @@ namespace Cubitwelve.Src.Middlewares
             {
                 await _next(context);
             }
-            catch (InvalidCredentialException ex)
+            catch (Exception ex)
             {
-                await GenerateHttpResponse(ex, context, ErrorMessages.InvalidCredentials, 404);
-            }
-            catch (EntityNotFoundException ex)
-            {
-                await GenerateHttpResponse(ex, context, ErrorMessages.EntityNotFound, 404);
-            }
-            catch (EntityNotDeletedException ex)
-            {
-                await GenerateHttpResponse(ex, context, ErrorMessages.EntityNotDeleted, 400);
-            }
-            catch (Exception ex) when (ex is InvalidJwtException || ex is InternalErrorException)
-            {
-                await GenerateHttpResponse(ex, context, ErrorMessages.InternalServerError, 500);
-            }
-            catch (DuplicateUserException ex)
-            {
-                await GenerateHttpResponse(ex, context, ErrorMessages.DuplicateUser, 400);
+                if (exceptionMapping.TryGetValue(ex.GetType(), out var mapping))
+                {
+                    await GenerateHttpResponse(ex, context, mapping.ErrorMessage, mapping.StatusCode);
+                }
+                else
+                {
+                    await GenerateHttpResponse(ex, context, ErrorMessages.InternalServerError, 500);
+                }
             }
         }
+
+        private readonly Dictionary<Type, (string ErrorMessage, int StatusCode)> exceptionMapping = new()
+            {
+            { typeof(InvalidCredentialException), (ErrorMessages.InvalidCredentials, 404) },
+            { typeof(EntityNotFoundException), (ErrorMessages.EntityNotFound, 404) },
+            { typeof(EntityDeletedException), (ErrorMessages.EntityNotDeleted, 400) },
+            { typeof(InvalidJwtException), (ErrorMessages.InternalServerError, 500) },
+            { typeof(DuplicateUserException), (ErrorMessages.DuplicateUser, 400) },
+            { typeof(DisabledUserException), (ErrorMessages.DisabledUser, 400)},
+            { typeof(InternalErrorException), (ErrorMessages.InternalServerError, 500)}
+        };
 
         private async Task GenerateHttpResponse(
             Exception ex,

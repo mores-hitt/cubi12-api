@@ -24,5 +24,23 @@ namespace Cubitwelve.Src.Services.Interfaces
         /// </returns>
         public Task<LoginResponseDto> Register(RegisterStudentDto registerStudentDto);
 
+        /// <summary>
+        /// Gets the email inside the JWT token identified as <see cref="ClaimTypes.Email"/> 
+        /// </summary>
+        /// <returns>email</returns>
+        /// <exception cref="UnauthorizedAccessException">
+        /// Thrown when the token do not contain <see cref="ClaimTypes.Email"/>
+        /// </exception>
+        public string GetUserEmailInToken();
+
+        /// <summary>
+        /// Gets the rolename inside the JWT token identified as <see cref="ClaimTypes.Role"/> 
+        /// </summary>
+        /// <returns>role</returns>
+        /// <exception cref="UnauthorizedAccessException">
+        /// Thrown when the token do not contain <see cref="ClaimTypes.Role"/>
+        /// </exception>
+        public string GetUserRoleInToken();
+
     }
 }

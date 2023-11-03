@@ -11,5 +11,8 @@ namespace Cubitwelve.Src.DTOs.Models
         public string RUT { get; set; } = null!;
 
         public string Email { get; set; } = null!;
+
+        public CareerDto Career { get; set; } = null!;
+
     }
 }

@@ -74,7 +74,7 @@ namespace Cubitwelve.Src.Repositories
             if (entityToDelete is BaseModel baseModel)
             {
                 if (baseModel.DeletedAt is not null)
-                    throw new EntityNotDeletedException($"Entity: {entityToDelete} cannot be deleted");
+                    throw new EntityDeletedException($"Entity: {entityToDelete} cannot be deleted");
 
                 baseModel.DeletedAt = DateTime.Now;
             }
@@ -87,11 +87,11 @@ namespace Cubitwelve.Src.Repositories
         public async Task SoftDelete(object id)
         {
             TEntity? entityToDelete = dbSet.Find(id) ??
-                throw new EntityNotDeletedException($"Entity with Id: {id} cannot be deleted");
+                throw new EntityDeletedException($"Entity with Id: {id} cannot be deleted");
 
             if (entityToDelete is BaseModel baseModel && baseModel.DeletedAt is null)
             {
-                throw new EntityNotDeletedException($"Entity: {entityToDelete} cannot be deleted");
+                throw new EntityDeletedException($"Entity: {entityToDelete} cannot be deleted");
             }
             await SoftDelete(entityToDelete);
         }
@@ -99,7 +99,7 @@ namespace Cubitwelve.Src.Repositories
         public virtual async Task Delete(object id)
         {
             TEntity? entityToDelete = dbSet.Find(id) ??
-                throw new EntityNotDeletedException($"Entity with Id: {id} cannot be deleted");
+                throw new EntityDeletedException($"Entity with Id: {id} cannot be deleted");
 
             await Delete(entityToDelete);
         }
@@ -113,7 +113,7 @@ namespace Cubitwelve.Src.Repositories
             dbSet.Remove(entityToDelete);
 
             var result = await context.SaveChangesAsync() > 0;
-            if (!result) throw new EntityNotDeletedException($"Entity: {entityToDelete} cannot be deleted");
+            if (!result) throw new EntityDeletedException($"Entity: {entityToDelete} cannot be deleted");
         }
 
         public virtual async Task<TEntity> Update(TEntity entityToUpdate)

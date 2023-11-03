@@ -18,13 +18,19 @@ namespace Cubitwelve.Src.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
         private readonly IMapperService _mapperService;
+        private readonly IHttpContextAccessor _ctxAccesor;
         private readonly string _jwtSecret;
 
-        public AuthService(IUnitOfWork unitOfWork, IConfiguration configuration, IMapperService mapperService)
+        public AuthService(IUnitOfWork unitOfWork,
+        IConfiguration configuration,
+        IMapperService mapperService,
+        IHttpContextAccessor ctxAccesor
+        )
         {
             _unitOfWork = unitOfWork;
             _configuration = configuration;
             _mapperService = mapperService;
+            _ctxAccesor = ctxAccesor;
             _jwtSecret = Env.GetString("JWT_SECRET") ?? throw new InvalidJwtException("JWT_SECRET not found");
         }
 
@@ -37,6 +43,9 @@ namespace Cubitwelve.Src.Services
             if (!verifyPassword)
                 throw new InvalidCredentialException("Invalid Credentials");
 
+            if (!user.IsEnabled)
+                throw new DisabledUserException("User is not enabled - Contact an administrator");
+
             var token = CreateToken(user.Email, user.Role.Name);
             var response = _mapperService.Map<User, LoginResponseDto>(user);
             MapMissingFields(user, token, response);
@@ -47,7 +56,7 @@ namespace Cubitwelve.Src.Services
         {
             await ValidateEmailAndRUT(registerStudentDto.Email, registerStudentDto.RUT);
 
-            var role = (await _unitOfWork.RolesRepository.Get(r => r.Name == RolesEnum.Student)).FirstOrDefault();
+            var role = (await _unitOfWork.RolesRepository.Get(r => r.Name == RolesEnum.STUDENT)).FirstOrDefault();
             // This should never happen, if it does, something is wrong with the database
             if (role is null)
                 throw new InternalErrorException("Role not found");
@@ -72,7 +81,7 @@ namespace Cubitwelve.Src.Services
             MapMissingFields(createdUser, token, response);
             return response;
         }
-        
+
         //TODO: Refactor this to MapperService
         private static void MapMissingFields(User createdUser, string token, LoginResponseDto response)
         {
@@ -96,8 +105,8 @@ namespace Cubitwelve.Src.Services
         private string CreateToken(string email, string role)
         {
             var claims = new List<Claim>{
-                new ("email", email),
-                new ("role", role),
+                new (ClaimTypes.Email, email),
+                new (ClaimTypes.Role, role),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecret));
@@ -111,6 +120,33 @@ namespace Cubitwelve.Src.Services
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
+        }
+
+        public string GetUserEmailInToken()
+        {
+            var httpUser = GetHttpUser();
+
+            //Get Claims from JWT
+            var userEmail = httpUser.FindFirstValue(ClaimTypes.Email) ??
+                throw new UnauthorizedAccessException("Invalid user email in token");
+            return userEmail;
+        }
+
+        public string GetUserRoleInToken()
+        {
+            var httpUser = GetHttpUser();
+
+            //Get Claims from JWT
+            var userRole = httpUser.FindFirstValue(ClaimTypes.Role) ??
+                throw new UnauthorizedAccessException("Invalid role in token");
+            return userRole;
+        }
+
+        private ClaimsPrincipal GetHttpUser()
+        {
+            //Check if the HttpContext is available to work with
+            return (_ctxAccesor.HttpContext?.User) ??
+                throw new UnauthorizedAccessException();
         }
     }
 }
