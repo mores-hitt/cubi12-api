@@ -1,6 +1,6 @@
 namespace Cubitwelve.Src.Common.Constants
 {
-    public class RegularExpressions
+    public static class RegularExpressions
     {
         /// <summary>
         /// Regex for password validation, must have at least one letter and one number

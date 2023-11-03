@@ -45,6 +45,10 @@ namespace Cubitwelve.Src.Middlewares
             {
                 await GenerateHttpResponse(ex, context, ErrorMessages.InternalServerError, 500);
             }
+            catch (DuplicateUserException ex)
+            {
+                await GenerateHttpResponse(ex, context, ErrorMessages.DuplicateUser, 400);
+            }
         }
 
         private async Task GenerateHttpResponse(
