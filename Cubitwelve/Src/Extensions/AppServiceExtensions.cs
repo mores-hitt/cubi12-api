@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Cubitwelve.Src.Exceptions;
 
 namespace Cubitwelve.Src.Extensions
 {
@@ -76,7 +77,9 @@ namespace Cubitwelve.Src.Extensions
 
         private static IServiceCollection AddAuthentication(IServiceCollection services, IConfiguration config)
         {
-            var jwtSecret = Env.GetString("JWT_SECRET") ?? throw new Exception("JWT_SECRET not present in .ENV");
+            var jwtSecret = Env.GetString("JWT_SECRET") ??
+                throw new InvalidJwtException("JWT_SECRET not present in .ENV");
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {

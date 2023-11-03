@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
 using Cubitwelve.Src.DTOs.Auth;
@@ -16,22 +17,24 @@ namespace Cubitwelve.Src.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
         private readonly IMapperService _mapperService;
+        private readonly string _jwtSecret;
 
         public AuthService(IUnitOfWork unitOfWork, IConfiguration configuration, IMapperService mapperService)
         {
             _unitOfWork = unitOfWork;
             _configuration = configuration;
             _mapperService = mapperService;
+            _jwtSecret = Env.GetString("JWT_SECRET") ?? throw new InvalidJwtException("JWT_SECRET not found");
         }
 
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
         {
             var user = await _unitOfWork.UsersRepository.GetByEmail(loginRequestDto.Email)
-                ?? throw new UserNotFoundException("Invalid Credentials");
+                ?? throw new InvalidCredentialException("Invalid Credentials");
 
             var verifyPassword = BCrypt.Net.BCrypt.Verify(loginRequestDto.Password, user.HashedPassword);
             if (!verifyPassword)
-                throw new UserNotFoundException("Invalid Credentials");
+                throw new InvalidCredentialException("Invalid Credentials");
 
             var token = CreateToken(user.Email, user.Role.Name);
             var response = _mapperService.Map<User, LoginResponseDto>(user);
@@ -50,7 +53,7 @@ namespace Cubitwelve.Src.Services
                 new ("role", role),
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Env.GetString("JWT_SECRET")));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecret));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
             var token = new JwtSecurityToken(
