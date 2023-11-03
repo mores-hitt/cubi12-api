@@ -1,6 +1,7 @@
 using Cubitwelve.Src.DTOs.Auth;
 using Cubitwelve.Src.Repositories.Interfaces;
 using Cubitwelve.Src.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cubitwelve.Src.Controllers
@@ -26,6 +27,17 @@ namespace Cubitwelve.Src.Controllers
         {
             var loginResponse = await _authService.Register(registerStudentDto);
             return CreatedAtAction(nameof(Login), new { id = loginResponse.Id }, loginResponse);
+        }
+
+        [Authorize(Roles = "student")]
+        [HttpGet()]
+        public async Task<IActionResult> Sample()
+        {
+            return Ok(new
+            {
+                Email = _authService.GetUserEmailInToken(),
+                Role = _authService.GetUserRoleInToken()
+            });
         }
     }
 }
