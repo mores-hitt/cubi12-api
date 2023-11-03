@@ -18,12 +18,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 // Custom Middleware
 app.UseExceptionHandling();
+
+#region CORS_CONFIGURATION
+app.UseCors(opt =>
+{
+    opt.AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials()
+        .WithOrigins("http://localhost:3000");
+});
+#endregion
+
+app.UseHttpsRedirection();
 
 app.MapControllers();
 
