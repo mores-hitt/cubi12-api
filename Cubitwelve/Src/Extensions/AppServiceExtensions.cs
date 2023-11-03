@@ -1,6 +1,8 @@
 using Cubitwelve.Src.Data;
 using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
+using Cubitwelve.Src.Repositories;
+using Cubitwelve.Src.Repositories.Interfaces;
 
 namespace Cubitwelve.Src.Extensions
 {
@@ -11,6 +13,7 @@ namespace Cubitwelve.Src.Extensions
             InitEnvironmentVariables();
             AddSwaggerGen(services);
             AddDbContext(services);
+            AddUnitOfWork(services);
         }
 
         private static void InitEnvironmentVariables()
@@ -40,6 +43,11 @@ namespace Cubitwelve.Src.Extensions
                             .EnableSensitiveDataLogging()
                             .EnableDetailedErrors()
             );
+        }
+
+        private static void AddUnitOfWork(IServiceCollection services)
+        {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
 
