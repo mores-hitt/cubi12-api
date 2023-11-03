@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Cubitwelve.Src.Common.Constants;
+using Cubitwelve.Src.DataAnnotations;
 
 namespace Cubitwelve.Src.DTOs.Auth
 {
@@ -18,6 +19,7 @@ namespace Cubitwelve.Src.DTOs.Auth
         public string SecondLastName { get; set; } = null!;
 
         [Required]
+        [Rut]
         public string RUT { get; set; } = null!;
 
         [Required]

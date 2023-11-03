@@ -57,7 +57,7 @@ namespace Cubitwelve.Src.Services
                 throw new EntityNotFoundException($"Career with ID: {registerStudentDto.CareerId} not found");
 
             var mappedUser = _mapperService.Map<RegisterStudentDto, User>(registerStudentDto);
-            // Not mapped fields
+            //TODO: Refactor this to MapperService
             mappedUser.RoleId = role.Id;
             mappedUser.CareerId = career.Id;
             mappedUser.IsEnabled = true;
@@ -72,7 +72,8 @@ namespace Cubitwelve.Src.Services
             MapMissingFields(createdUser, token, response);
             return response;
         }
-
+        
+        //TODO: Refactor this to MapperService
         private static void MapMissingFields(User createdUser, string token, LoginResponseDto response)
         {
             response.Token = token;
