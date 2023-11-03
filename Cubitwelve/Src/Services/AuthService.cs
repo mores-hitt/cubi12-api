@@ -53,7 +53,7 @@ namespace Cubitwelve.Src.Services
         {
             await ValidateEmailAndRUT(registerStudentDto.Email, registerStudentDto.RUT);
 
-            var role = (await _unitOfWork.RolesRepository.Get(r => r.Name == RolesEnum.Student)).FirstOrDefault();
+            var role = (await _unitOfWork.RolesRepository.Get(r => r.Name == RolesEnum.STUDENT)).FirstOrDefault();
             // This should never happen, if it does, something is wrong with the database
             if (role is null)
                 throw new InternalErrorException("Role not found");
