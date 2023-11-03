@@ -24,6 +24,7 @@ namespace Cubitwelve.Src.Extensions
             AddDbContext(services);
             AddUnitOfWork(services);
             AddAuthentication(services, config);
+            AddHttpContextAccesor(services);
         }
 
         private static void InitEnvironmentVariables()
@@ -92,6 +93,11 @@ namespace Cubitwelve.Src.Extensions
                 };
             });
             return services;
+        }
+
+        private static void AddHttpContextAccesor(IServiceCollection services)
+        {
+            services.AddHttpContextAccessor();
         }
 
 
