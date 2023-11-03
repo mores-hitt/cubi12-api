@@ -7,8 +7,8 @@ namespace Cubitwelve.Src.Repositories
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        internal DataContext context;
-        internal DbSet<TEntity> dbSet;
+        protected DataContext context;
+        protected DbSet<TEntity> dbSet;
 
         public GenericRepository(DataContext context)
         {
@@ -16,31 +16,33 @@ namespace Cubitwelve.Src.Repositories
             this.dbSet = context.Set<TEntity>();
         }
 
-        public async Task Delete(object id)
+        public virtual async Task Delete(object id)
         {
-            TEntity? entityToDelete = dbSet.Find(id) ?? throw new Exception("Entity not found");
+            TEntity? entityToDelete = dbSet.Find(id)
+                                        ?? throw new Exception("Entity not found");
             await Delete(entityToDelete);
         }
 
-        public async Task Delete(TEntity entityToDelete)
+        public virtual async Task Delete(TEntity entityToDelete)
         {
             if (context.Entry(entityToDelete).State == EntityState.Detached)
             {
                 dbSet.Attach(entityToDelete);
             }
             dbSet.Remove(entityToDelete);
+
             var result = await context.SaveChangesAsync() > 0;
             if (!result) throw new Exception("Error deleting entity");
         }
 
-        public async Task<List<TEntity>> Get(
+        public virtual async Task<List<TEntity>> Get(
             Expression<Func<TEntity, bool>>? filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
             string includeProperties = "")
         {
             IQueryable<TEntity> query = dbSet;
 
-            if (filter != null)
+            if (filter is not null)
             {
                 query = query.Where(filter);
             }
@@ -51,32 +53,31 @@ namespace Cubitwelve.Src.Repositories
                 query = query.Include(includeProperty);
             }
 
-            if (orderBy != null)
+            if (orderBy is not null)
             {
                 return await orderBy(query).ToListAsync();
             }
-            else
-            {
-                return await query.ToListAsync();
-            }
+            return await query.ToListAsync();
         }
 
-        public async Task<TEntity?> GetByID(object id)
+        public virtual async Task<TEntity?> GetByID(object id)
         {
             return await dbSet.FindAsync(id);
         }
 
-        public async Task<TEntity> Insert(TEntity entity)
+        public virtual async Task<TEntity> Insert(TEntity entity)
         {
             await dbSet.AddAsync(entity);
+
             await context.SaveChangesAsync();
             return entity;
         }
 
-        public async Task<TEntity> Update(TEntity entityToUpdate)
+        public virtual async Task<TEntity> Update(TEntity entityToUpdate)
         {
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
+
             await context.SaveChangesAsync();
             return entityToUpdate;
         }
