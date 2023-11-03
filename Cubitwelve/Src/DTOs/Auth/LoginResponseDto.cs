@@ -1,6 +1,8 @@
+using Cubitwelve.Src.DTOs.Models;
+
 namespace Cubitwelve.Src.DTOs.Auth
 {
-    public class LoginResponseDto
+    public class LoginResponseDto : BaseModelDto
     {
         public string Name { get; set; } = null!;
 
@@ -12,8 +14,10 @@ namespace Cubitwelve.Src.DTOs.Auth
 
         public string Email { get; set; } = null!;
 
+        public string Role { get; set; } = null!;
+
         public string Career { get; set; } = null!;
 
-        public string Jwt { get; set; } = null!;
+        public string Token { get; set; } = null!;
     }
 }

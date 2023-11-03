@@ -1,5 +1,6 @@
 using AutoMapper;
-using Cubitwelve.Src.Auth.DTOs;
+using Cubitwelve.Src.DTOs.Auth;
+using Cubitwelve.Src.DTOs.Models;
 using Cubitwelve.Src.Models;
 
 namespace Cubitwelve.Src.Extensions
@@ -8,8 +9,11 @@ namespace Cubitwelve.Src.Extensions
     {
         public MappingProfile()
         {
+            CreateMap<Career, CareerDto>();
+            CreateMap<Role, RoleDto>();
+            CreateMap<User, UserDto>();
+            CreateMap<User, LoginResponseDto>();
             CreateMap<RegisterStudentDto, User>();
-            CreateMap<EditProfileDto, User>();
         }
     }
 }

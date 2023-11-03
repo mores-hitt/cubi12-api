@@ -1,13 +1,10 @@
 using AutoMapper;
-using Cubitwelve.Src.Auth.DTOs;
-using Cubitwelve.Src.Models;
 using Cubitwelve.Src.Services.Interfaces;
 
 namespace Cubitwelve.Src.Services
 {
     public class MapperService : IMapperService
     {
-
         private readonly IMapper _mapper;
 
         public MapperService(IMapper mapper)
@@ -15,16 +12,15 @@ namespace Cubitwelve.Src.Services
             _mapper = mapper;
         }
 
-        public User EditProfileDtoToUser(EditProfileDto editProfileDto)
+        public TDestination Map<TSource, TDestination>(TSource source)
         {
-            var mappedUser = _mapper.Map<User>(editProfileDto);
-            return mappedUser;
+            return _mapper.Map<TDestination>(source);
         }
 
-        public User RegisterClientDtoToUser(RegisterStudentDto registerStudentDto)
+        public List<TDestination> MapList<TSource, TDestination>(List<TSource> sourceItems)
         {
-            var mappedUser = _mapper.Map<User>(registerStudentDto);
-            return mappedUser;
+            var mappedObjects = sourceItems.Select(x => _mapper.Map<TDestination>(x)).ToList();
+            return mappedObjects;
         }
     }
 }

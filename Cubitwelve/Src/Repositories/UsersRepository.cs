@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Cubitwelve.Src.Data;
 using Cubitwelve.Src.Models;
 using Cubitwelve.Src.Repositories.Interfaces;
@@ -5,48 +6,40 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cubitwelve.Src.Repositories
 {
-    public class UsersRepository : IUsersRepository
+    public class UsersRepository : GenericRepository<User>, IUsersRepository
     {
-        private readonly DataContext _context;
+        private readonly Expression<Func<User, bool>> softDeleteFilter = x => x.DeletedAt == null;
 
-        public UsersRepository(DataContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<User> Add(User user)
-        {
-            var createdUser = (await _context.Users.AddAsync(user)).Entity;
-            await _context.SaveChangesAsync();
-            return createdUser;
-        }
+        public UsersRepository(DataContext context) : base(context) { }
 
         public async Task<List<User>> GetAll()
         {
-            var users = await _context.Users
-                                    .Include(user => user.Role)
-                                    .ToListAsync();
+            var users = await dbSet
+                            .Where(softDeleteFilter)
+                            .Include(x => x.Role)
+                            .Include(x => x.Career)
+                            .ToListAsync();
             return users;
         }
 
         public async Task<User?> GetByEmail(string email)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var user = await dbSet
+                        .Where(softDeleteFilter)
+                        .Include(x => x.Role)
+                        .Include(x => x.Career)
+                        .FirstOrDefaultAsync(x => x.Email == email);
             return user;
         }
 
-        public async Task<User?> GetById(int id)
+        public async Task<User?> GetByRut(string rut)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            var user = await dbSet
+                        .Where(softDeleteFilter)
+                        .Include(x => x.Role)
+                        .Include(x => x.Career)
+                        .FirstOrDefaultAsync(x => x.RUT == rut);
             return user;
-        }
-
-        public User Update(User user)
-        {
-            var updatedUser = _context.Users.Update(user).Entity;
-            updatedUser.UpdatedAt = DateTime.UtcNow;
-            _context.SaveChanges();
-            return updatedUser;
         }
     }
 }

@@ -1,19 +1,25 @@
 using System.ComponentModel.DataAnnotations;
+using Cubitwelve.Src.Common.Constants;
+using Cubitwelve.Src.DataAnnotations;
 
-namespace Cubitwelve.Src.Auth.DTOs
+namespace Cubitwelve.Src.DTOs.Auth
 {
     public class RegisterStudentDto
     {
         [Required]
+        [StringLength(50, MinimumLength = 3)]
         public string Name { get; set; } = null!;
 
         [Required]
+        [StringLength(30, MinimumLength = 3)]
         public string FirstLastName { get; set; } = null!;
 
         [Required]
+        [StringLength(30, MinimumLength = 3)]
         public string SecondLastName { get; set; } = null!;
 
         [Required]
+        [Rut]
         public string RUT { get; set; } = null!;
 
         [Required]
@@ -21,13 +27,17 @@ namespace Cubitwelve.Src.Auth.DTOs
         public string Email { get; set; } = null!;
 
         [Required]
-        public string Career { get; set; } = null!;
+        public int CareerId { get; set; }
 
         [Required]
+        [StringLength(16, MinimumLength = 10)]
+        [RegularExpression(RegularExpressions.PasswordValidation,
+            ErrorMessage = "Password must have at least one letter and one number")
+        ]
         public string Password { get; set; } = null!;
 
         [Required]
-        [Compare("Password")]
-        public string RepeatPassword { get; set; } = null!;
+        [Compare(nameof(Password))]
+        public string RepeatedPassword { get; set; } = null!;
     }
 }

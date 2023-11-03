@@ -3,8 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cubitwelve.Src.Extensions
 {
-    public class AppSeedService
+    public static class AppSeedService
     {
+        /// <summary>
+        /// Calls the seed method to populate the database with example data.
+        /// </summary>
+        /// <param name="app">Singleton WebApplication</param>
         public static void SeedDatabase(WebApplication app)
         {
             var scope = app.Services.CreateScope();
@@ -18,7 +22,7 @@ namespace Cubitwelve.Src.Extensions
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, " A problem ocurred during seeding");
+                logger.LogError(ex, " A problem ocurred during seeding ");
             }
         }
     }

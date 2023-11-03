@@ -1,112 +1,115 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
-using Cubitwelve.Src.Auth.DTOs;
+using Cubitwelve.Src.Common.Constants;
 using Cubitwelve.Src.DTOs.Auth;
+using Cubitwelve.Src.Exceptions;
 using Cubitwelve.Src.Models;
 using Cubitwelve.Src.Repositories.Interfaces;
 using Cubitwelve.Src.Services.Interfaces;
+using DotNetEnv;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Cubitwelve.Src.Services
 {
     public class AuthService : IAuthService
     {
-
-        private readonly IUsersRepository _usersRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
         private readonly IMapperService _mapperService;
-        private readonly IRolesRepository _rolesRepository;
+        private readonly IHttpContextAccessor _ctxAccesor;
+        private readonly string _jwtSecret;
 
-        public AuthService(IUsersRepository usersRepository, IConfiguration configuration,
-                            IMapperService mapperService, IRolesRepository rolesRepository)
+        public AuthService(IUnitOfWork unitOfWork,
+        IConfiguration configuration,
+        IMapperService mapperService,
+        IHttpContextAccessor ctxAccesor
+        )
         {
-            _usersRepository = usersRepository;
+            _unitOfWork = unitOfWork;
             _configuration = configuration;
             _mapperService = mapperService;
-            _rolesRepository = rolesRepository;
+            _ctxAccesor = ctxAccesor;
+            _jwtSecret = Env.GetString("JWT_SECRET") ?? throw new InvalidJwtException("JWT_SECRET not found");
         }
 
-        public async Task<LoginResponseDto?> EditProfile(int id, EditProfileDto editProfileDto)
+        public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
         {
-            var user = await _usersRepository.GetById(id);
-            if (user is null) return null;
+            var user = await _unitOfWork.UsersRepository.GetByEmail(loginRequestDto.Email)
+                ?? throw new InvalidCredentialException("Invalid Credentials");
 
-            user.Name = editProfileDto.Name;
-            user.FirstLastName = editProfileDto.FirstLastName;
-            user.SecondLastName = editProfileDto.SecondLastName;
-            user.Career = editProfileDto.Career;
-            user.Email = editProfileDto.Email;
+            var verifyPassword = BCrypt.Net.BCrypt.Verify(loginRequestDto.Password, user.HashedPassword);
+            if (!verifyPassword)
+                throw new InvalidCredentialException("Invalid Credentials");
 
-            var updatedUser = _usersRepository.Update(user);
+            if (!user.IsEnabled)
+                throw new DisabledUserException("User is not enabled - Contact an administrator");
 
-            var jwt = CreateToken(updatedUser);
-
-            return new LoginResponseDto
-            {
-                Name = updatedUser.Name,
-                FirstLastName = updatedUser.FirstLastName,
-                SecondLastName = updatedUser.SecondLastName,
-                RUT = updatedUser.RUT,
-                Email = updatedUser.Email,
-                Career = updatedUser.Career,
-                Jwt = jwt
-            };
+            var token = CreateToken(user.Email, user.Role.Name);
+            var response = _mapperService.Map<User, LoginResponseDto>(user);
+            MapMissingFields(user, token, response);
+            return response;
         }
 
-        public async Task<LoginResponseDto?> Login(LoginUserDto loginUserDto)
+        public async Task<LoginResponseDto> Register(RegisterStudentDto registerStudentDto)
         {
-            var user = await _usersRepository.GetByEmail(loginUserDto.Email);
-            if (user is null) return null;
+            await ValidateEmailAndRUT(registerStudentDto.Email, registerStudentDto.RUT);
 
-            var result = BCrypt.Net.BCrypt.Verify(loginUserDto.Password, user.HashedPassword);
-            if (!result) return null;
+            var role = (await _unitOfWork.RolesRepository.Get(r => r.Name == RolesEnum.STUDENT)).FirstOrDefault();
+            // This should never happen, if it does, something is wrong with the database
+            if (role is null)
+                throw new InternalErrorException("Role not found");
 
-            var jwt = CreateToken(user);
-            return new LoginResponseDto
-            {
-                Name = user.Name,
-                FirstLastName = user.FirstLastName,
-                SecondLastName = user.SecondLastName,
-                RUT = user.RUT,
-                Email = user.Email,
-                Career = user.Career,
-                Jwt = jwt
-            };
-        }
+            var career = await _unitOfWork.CareersRepository.GetByID(registerStudentDto.CareerId);
+            if (career is null)
+                throw new EntityNotFoundException($"Career with ID: {registerStudentDto.CareerId} not found");
 
-        public async Task<LoginResponseDto?> RegisterStudent(RegisterStudentDto registerStudentDto)
-        {
+            var mappedUser = _mapperService.Map<RegisterStudentDto, User>(registerStudentDto);
+            //TODO: Refactor this to MapperService
+            mappedUser.RoleId = role.Id;
+            mappedUser.CareerId = career.Id;
+            mappedUser.IsEnabled = true;
             var salt = BCrypt.Net.BCrypt.GenerateSalt(12);
-            string passwordHash = BCrypt.Net.BCrypt.HashPassword(registerStudentDto.Password, salt);
+            mappedUser.HashedPassword = BCrypt.Net.BCrypt.HashPassword(registerStudentDto.Password, salt);
 
-            var mappedUser = _mapperService.RegisterClientDtoToUser(registerStudentDto);
-            // Ensure fill fields not mapped
-            mappedUser.HashedPassword = passwordHash;
-            mappedUser.RoleId = _rolesRepository.GetStudentRole().Id;
+            var createdUser = await _unitOfWork.UsersRepository.Insert(mappedUser);
 
-            var user = await _usersRepository.Add(mappedUser);
-            var jwt = CreateToken(user);
-            return new LoginResponseDto
-            {
-                Name = user.Name,
-                FirstLastName = user.FirstLastName,
-                SecondLastName = user.SecondLastName,
-                RUT = user.RUT,
-                Email = user.Email,
-                Career = user.Career,
-                Jwt = jwt
-            };
+            var token = CreateToken(createdUser.Email, createdUser.Role.Name);
+            var response = _mapperService.Map<User, LoginResponseDto>(createdUser);
+            // Not mapped fields
+            MapMissingFields(createdUser, token, response);
+            return response;
         }
 
-        private string CreateToken(User user)
+        //TODO: Refactor this to MapperService
+        private static void MapMissingFields(User createdUser, string token, LoginResponseDto response)
+        {
+            response.Token = token;
+            response.Role = createdUser.Role.Name;
+            response.Career = createdUser.Career.Name;
+        }
+
+        private async Task ValidateEmailAndRUT(string email, string rut)
+        {
+            var user = await _unitOfWork.UsersRepository.GetByEmail(email);
+            if (user is not null)
+                throw new DuplicateUserException("Email already in use");
+
+            user = await _unitOfWork.UsersRepository.GetByRut(rut);
+            if (user is not null)
+                throw new DuplicateUserException("RUT already in use");
+        }
+
+
+        private string CreateToken(string email, string role)
         {
             var claims = new List<Claim>{
-                new ("email", user.Email)
+                new (ClaimTypes.Email, email),
+                new (ClaimTypes.Role, role),
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                    _configuration.GetSection("AppSettings:Token").Value!));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecret));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
             var token = new JwtSecurityToken(
@@ -117,6 +120,33 @@ namespace Cubitwelve.Src.Services
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
+        }
+
+        public string GetUserEmailInToken()
+        {
+            var httpUser = GetHttpUser();
+
+            //Get Claims from JWT
+            var userEmail = httpUser.FindFirstValue(ClaimTypes.Email) ??
+                throw new UnauthorizedAccessException("Invalid user email in token");
+            return userEmail;
+        }
+
+        public string GetUserRoleInToken()
+        {
+            var httpUser = GetHttpUser();
+
+            //Get Claims from JWT
+            var userRole = httpUser.FindFirstValue(ClaimTypes.Role) ??
+                throw new UnauthorizedAccessException("Invalid role in token");
+            return userRole;
+        }
+
+        private ClaimsPrincipal GetHttpUser()
+        {
+            //Check if the HttpContext is available to work with
+            return (_ctxAccesor.HttpContext?.User) ??
+                throw new UnauthorizedAccessException();
         }
     }
 }
