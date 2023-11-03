@@ -11,5 +11,7 @@ namespace Cubitwelve.Src.Common.Constants
         public const string InternalServerError = "Internal error - Please contact the administrator";
 
         public const string DuplicateUser = "Duplicate user";
+
+        public const string DisabledUser = "User is not enabled - Contact an administrator";
     }
 }

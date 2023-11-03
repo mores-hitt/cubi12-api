@@ -43,6 +43,9 @@ namespace Cubitwelve.Src.Services
             if (!verifyPassword)
                 throw new InvalidCredentialException("Invalid Credentials");
 
+            if (!user.IsEnabled)
+                throw new DisabledUserException("User is not enabled - Contact an administrator");
+
             var token = CreateToken(user.Email, user.Role.Name);
             var response = _mapperService.Map<User, LoginResponseDto>(user);
             MapMissingFields(user, token, response);

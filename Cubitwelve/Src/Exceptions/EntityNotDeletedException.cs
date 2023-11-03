@@ -1,13 +1,13 @@
 namespace Cubitwelve.Src.Exceptions
 {
-    public class EntityNotDeletedException : Exception
+    public class EntityDeletedException : Exception
     {
-        public EntityNotDeletedException() { }
+        public EntityDeletedException() { }
 
-        public EntityNotDeletedException(string? message)
+        public EntityDeletedException(string? message)
             : base(message) { }
 
-        public EntityNotDeletedException(string? message, Exception? innerException)
+        public EntityDeletedException(string? message, Exception? innerException)
             : base(message, innerException) { }
     }
 }
