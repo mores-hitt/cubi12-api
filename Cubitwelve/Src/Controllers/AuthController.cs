@@ -8,14 +8,10 @@ namespace Cubitwelve.Src.Controllers
     public class AuthController : BaseApiController
     {
         private readonly IAuthService _authService;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public AuthController(IAuthService authService,
-                            IUnitOfWork unitOfWork
-        )
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
-            _unitOfWork = unitOfWork;
         }
 
         [HttpPost("login")]
@@ -23,6 +19,13 @@ namespace Cubitwelve.Src.Controllers
         {
             var response = await _authService.Login(loginRequestDto);
             return Ok(response);
+        }
+
+        [HttpPost("register")]
+        public async Task<ActionResult<LoginResponseDto>> Register(RegisterStudentDto registerStudentDto)
+        {
+            var loginResponse = await _authService.Register(registerStudentDto);
+            return CreatedAtAction(nameof(Login), new { id = loginResponse.Id }, loginResponse);
         }
     }
 }
