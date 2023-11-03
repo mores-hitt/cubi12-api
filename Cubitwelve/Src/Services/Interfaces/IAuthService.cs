@@ -42,5 +42,7 @@ namespace Cubitwelve.Src.Services.Interfaces
         /// </exception>
         public string GetUserRoleInToken();
 
+        public Task UpdatePassword(UpdatePasswordDto updatePasswordDto);
+
     }
 }

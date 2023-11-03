@@ -148,5 +148,21 @@ namespace Cubitwelve.Src.Services
             return (_ctxAccesor.HttpContext?.User) ??
                 throw new UnauthorizedAccessException();
         }
+
+        public async Task UpdatePassword(UpdatePasswordDto updatePasswordDto)
+        {
+            var userEmail = GetUserEmailInToken();
+            var user = await _unitOfWork.UsersRepository.GetByEmail(userEmail)
+                ?? throw new EntityNotFoundException($"User with email: {userEmail} do not exists");
+
+            var verifyPassword = BCrypt.Net.BCrypt.Verify(updatePasswordDto.CurrentPassword, user.HashedPassword);
+            if (!verifyPassword)
+                throw new InvalidCredentialException("Invalid Current Password");
+
+            var salt = BCrypt.Net.BCrypt.GenerateSalt(12);
+            user.HashedPassword = BCrypt.Net.BCrypt.HashPassword(updatePasswordDto.Password, salt);
+
+            await _unitOfWork.UsersRepository.Update(user);
+        }
     }
 }
