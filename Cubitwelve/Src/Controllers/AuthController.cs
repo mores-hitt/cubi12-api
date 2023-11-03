@@ -1,7 +1,5 @@
 using Cubitwelve.Src.DTOs.Auth;
-using Cubitwelve.Src.Repositories.Interfaces;
 using Cubitwelve.Src.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cubitwelve.Src.Controllers
@@ -16,14 +14,14 @@ namespace Cubitwelve.Src.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<LoginResponseDto>> Login(LoginRequestDto loginRequestDto)
+        public async Task<ActionResult<LoginResponseDto>> Login([FromBody] LoginRequestDto loginRequestDto)
         {
             var response = await _authService.Login(loginRequestDto);
             return Ok(response);
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<LoginResponseDto>> Register(RegisterStudentDto registerStudentDto)
+        public async Task<ActionResult<LoginResponseDto>> Register([FromBody] RegisterStudentDto registerStudentDto)
         {
             var loginResponse = await _authService.Register(registerStudentDto);
             return CreatedAtAction(nameof(Login), new { id = loginResponse.Id }, loginResponse);
