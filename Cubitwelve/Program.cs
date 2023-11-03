@@ -1,4 +1,5 @@
 using Cubitwelve.Src.Extensions;
+using Cubitwelve.Src.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+// Custom Middleware
+app.UseExceptionHandling();
 
 app.MapControllers();
 
