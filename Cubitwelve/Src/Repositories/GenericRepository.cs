@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Cubitwelve.Src.Data;
+using Cubitwelve.Src.Models;
 using Cubitwelve.Src.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -75,11 +76,18 @@ namespace Cubitwelve.Src.Repositories
 
         public virtual async Task<TEntity> Update(TEntity entityToUpdate)
         {
+            if (entityToUpdate is BaseModel baseModel)
+            {
+                baseModel.UpdatedAt = DateTime.Now;
+                baseModel.Version++;
+            }
+
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
 
             await context.SaveChangesAsync();
             return entityToUpdate;
         }
+
     }
 }
