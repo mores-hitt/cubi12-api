@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Cubitwelve.Src.Common.Constants;
 
 namespace Cubitwelve.Src.DTOs.Auth
 {
@@ -28,7 +29,9 @@ namespace Cubitwelve.Src.DTOs.Auth
 
         [Required]
         [StringLength(16, MinimumLength = 10)]
-        [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d).+$")]
+        [RegularExpression(RegularExpressions.PasswordValidation,
+            ErrorMessage = "Password must have at least one letter and one number")
+        ]
         public string Password { get; set; } = null!;
 
         [Required]
