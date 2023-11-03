@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Cubitwelve.Src.DTOs.Auth;
+using Cubitwelve.Src.Exceptions;
 using Cubitwelve.Src.Models;
 using Cubitwelve.Src.Repositories.Interfaces;
 using Cubitwelve.Src.Services.Interfaces;
@@ -26,11 +27,11 @@ namespace Cubitwelve.Src.Services
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
         {
             var user = await _unitOfWork.UsersRepository.GetByEmail(loginRequestDto.Email)
-                ?? throw new Exception("Invalid Credentials");
+                ?? throw new UserNotFoundException("Invalid Credentials");
 
             var verifyPassword = BCrypt.Net.BCrypt.Verify(loginRequestDto.Password, user.HashedPassword);
             if (!verifyPassword)
-                throw new Exception("Invalid Credentials");
+                throw new UserNotFoundException("Invalid Credentials");
 
             var token = CreateToken(user.Email, user.Role.Name);
             var response = _mapperService.Map<User, LoginResponseDto>(user);
