@@ -1,6 +1,8 @@
+using Cubitwelve.Src.DTOs.Models;
+
 namespace Cubitwelve.Src.DTOs.Auth
 {
-    public class LoginResponseDto
+    public class LoginResponseDto : BaseModelDto
     {
         public string Name { get; set; } = null!;
 
