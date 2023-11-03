@@ -5,6 +5,9 @@ using Cubitwelve.Src.Repositories;
 using Cubitwelve.Src.Repositories.Interfaces;
 using Cubitwelve.Src.Services.Interfaces;
 using Cubitwelve.Src.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Cubitwelve.Src.Extensions
 {
@@ -18,7 +21,7 @@ namespace Cubitwelve.Src.Extensions
             AddSwaggerGen(services);
             AddDbContext(services);
             AddUnitOfWork(services);
-            
+            AddAuthentication(services, config);
         }
 
         private static void InitEnvironmentVariables()
@@ -64,6 +67,23 @@ namespace Cubitwelve.Src.Extensions
         private static void AddAutoMapper(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
+        }
+
+        private static IServiceCollection AddAuthentication(IServiceCollection services, IConfiguration config)
+        {
+            var jwtSecret = Env.GetString("JWT_SECRET") ?? throw new Exception("JWT_SECRET not present in .ENV");
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSecret)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+            return services;
         }
 
 

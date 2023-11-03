@@ -32,6 +32,7 @@ Follow these steps to get the project up and running on your local machine:
     DB_PASSWORD=my_secret_password
     DB_DATABASE=my_db
     DB_ROOT_PASSWORD=my_secret_root_password
+    JWT_SECRET=put_your_secret_only_known_by_yourself_here
     ```
     You can use whatever credentials you want
 
