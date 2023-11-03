@@ -24,5 +24,9 @@ namespace Cubitwelve.Src.Services.Interfaces
         /// </returns>
         public Task<LoginResponseDto> Register(RegisterStudentDto registerStudentDto);
 
+        public string GetUserEmailInToken();
+
+        public string GetUserRoleInToken();
+
     }
 }
