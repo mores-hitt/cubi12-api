@@ -111,9 +111,7 @@ namespace Cubitwelve.Src.Services
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
             var token = new JwtSecurityToken(
                 claims: claims,
-                //FIXME: Delete this before production
-                expires: DateTime.Now.AddHours(1),
-                // expires: DateTime.Now.AddMinutes(5),
+                expires: DateTime.Now.AddMinutes(5),
                 signingCredentials: creds
             );
 
