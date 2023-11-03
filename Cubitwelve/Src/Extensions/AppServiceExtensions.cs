@@ -14,6 +14,7 @@ namespace Cubitwelve.Src.Extensions
             AddSwaggerGen(services);
             AddDbContext(services);
             AddUnitOfWork(services);
+            AddAutoMapper(services);
         }
 
         private static void InitEnvironmentVariables()
@@ -48,6 +49,11 @@ namespace Cubitwelve.Src.Extensions
         private static void AddUnitOfWork(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+        }
+
+        private static void AddAutoMapper(IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(MappingProfile).Assembly);
         }
 
 
