@@ -28,16 +28,5 @@ namespace Cubitwelve.Src.Controllers
             var loginResponse = await _authService.Register(registerStudentDto);
             return CreatedAtAction(nameof(Login), new { id = loginResponse.Id }, loginResponse);
         }
-
-        [Authorize(Roles = "student")]
-        [HttpGet()]
-        public async Task<IActionResult> Sample()
-        {
-            return Ok(new
-            {
-                Email = _authService.GetUserEmailInToken(),
-                Role = _authService.GetUserRoleInToken()
-            });
-        }
     }
 }
