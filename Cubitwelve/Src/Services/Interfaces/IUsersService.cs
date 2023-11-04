@@ -12,5 +12,7 @@ namespace Cubitwelve.Src.Services.Interfaces
         public Task<UserDto> GetByEmail(string email);
 
         public Task<UserDto> EditProfile(EditProfileDto editProfileDto);
+
+        public Task<bool> IsEnabled(string email);
     }
 }

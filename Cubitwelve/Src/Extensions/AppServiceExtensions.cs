@@ -60,10 +60,6 @@ namespace Cubitwelve.Src.Extensions
             services.AddDbContext<DataContext>(opt =>
                             opt
                             .UseMySql(connectionString, serverVersion)
-                            // TODO: Remove the following 3 lines in production
-                            .LogTo(Console.WriteLine, LogLevel.Information)
-                            .EnableSensitiveDataLogging()
-                            .EnableDetailedErrors()
             );
         }
 

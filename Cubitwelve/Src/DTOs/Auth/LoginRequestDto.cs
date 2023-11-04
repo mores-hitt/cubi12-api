@@ -10,9 +10,5 @@ namespace Cubitwelve.Src.DTOs.Auth
 
         [Required]
         public string Password { get; set; } = null!;
-
-        [Required]
-        [Compare("Password")]
-        public string RepeatedPassword { get; set; } = null!;
     }
 }

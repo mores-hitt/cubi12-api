@@ -68,6 +68,24 @@ namespace Cubitwelve.Src.Services
             return user;
         }
 
+        public async Task<bool> IsEnabled(string email)
+        {
+            try
+            {
+                var user = await GetUserByEmail(email);
+                if (!user.IsEnabled)
+                    return false;
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+
+        }
+
         #endregion
 
     }
