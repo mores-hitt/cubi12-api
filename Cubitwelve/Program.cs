@@ -20,8 +20,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
-// Custom Middleware
-app.UseExceptionHandling();
+
+
+// Because it's the first middleware, it will catch all exceptions
+app.UseExceptionHandling(); 
+app.UseIsUserEnabled();
+
 
 #region CORS_CONFIGURATION
 app.UseCors(opt =>

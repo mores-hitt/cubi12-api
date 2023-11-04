@@ -50,7 +50,8 @@ namespace Cubitwelve.Src.Middlewares
             { typeof(InvalidJwtException), (ErrorMessages.InternalServerError, 500) },
             { typeof(DuplicateUserException), (ErrorMessages.DuplicateUser, 400) },
             { typeof(DisabledUserException), (ErrorMessages.DisabledUser, 400)},
-            { typeof(InternalErrorException), (ErrorMessages.InternalServerError, 500)}
+            { typeof(InternalErrorException), (ErrorMessages.InternalServerError, 500)},
+            {typeof(UnauthorizedAccessException), (ErrorMessages.UnauthorizedAccess, 401)}
         };
 
         private async Task GenerateHttpResponse(
@@ -60,7 +61,11 @@ namespace Cubitwelve.Src.Middlewares
             int statusCode
         )
         {
-            _logger.LogError(ex, ex.Message);
+            if (statusCode == 500)
+                _logger.LogError(ex, ex.Message);
+            else
+                _logger.LogInformation(ex, ex.Message);
+
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = statusCode;
 
