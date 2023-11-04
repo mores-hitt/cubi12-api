@@ -10,6 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
+// Because it's the first middleware, it will catch all exceptions
+app.UseExceptionHandling(); 
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -22,8 +24,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-// Because it's the first middleware, it will catch all exceptions
-app.UseExceptionHandling(); 
+
 app.UseIsUserEnabled();
 
 
