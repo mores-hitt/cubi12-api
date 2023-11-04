@@ -52,22 +52,6 @@ namespace Cubitwelve.Src.Services
             return _mapperService.Map<User, UserDto>(updatedUser);
         }
 
-        #region PRIVATE_METHODS
-
-        private async Task<User> GetUserByEmail(string email)
-        {
-            var user = await _unitOfWork.UsersRepository.GetByEmail(email)
-                                        ?? throw new EntityNotFoundException($"User with email: {email} not found");
-            return user;
-        }
-
-        private async Task<User> GetUserById(int id)
-        {
-            var user = await _unitOfWork.UsersRepository.GetByID(id)
-                                        ?? throw new EntityNotFoundException($"User with ID: {id} not found");
-            return user;
-        }
-
         public async Task<bool> IsEnabled(string email)
         {
             try
@@ -84,6 +68,29 @@ namespace Cubitwelve.Src.Services
             }
 
 
+        }
+
+        public Task<UserDto> GetProfile()
+        {
+            var userEmail = _authService.GetUserEmailInToken();
+            return GetByEmail(userEmail);
+        }
+        
+
+        #region PRIVATE_METHODS
+
+        private async Task<User> GetUserByEmail(string email)
+        {
+            var user = await _unitOfWork.UsersRepository.GetByEmail(email)
+                                        ?? throw new EntityNotFoundException($"User with email: {email} not found");
+            return user;
+        }
+
+        private async Task<User> GetUserById(int id)
+        {
+            var user = await _unitOfWork.UsersRepository.GetByID(id)
+                                        ?? throw new EntityNotFoundException($"User with ID: {id} not found");
+            return user;
         }
 
         #endregion

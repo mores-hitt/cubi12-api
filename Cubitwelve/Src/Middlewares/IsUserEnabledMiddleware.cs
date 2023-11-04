@@ -29,8 +29,6 @@ namespace Cubitwelve.Src.Middlewares
                 if (!isEnabled) throw new UnauthorizedAccessException("User is not enabled");
             }
             await _next(context);
-
-
         }
     }
 
