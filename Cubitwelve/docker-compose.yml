@@ -21,12 +21,13 @@ services:
         - cubitwelve
 
   backend:
-    environment:
-        JWT_SECRET: ${JWT_SECRET}
-        DB_CONNECTION: "server=${DB_SERVER_NAME};user=${DB_USER};password=${DB_PASSWORD};database=${DB_DATABASE}"
+    image: dizkm8/cubitwelve_image:v1
     build: .
     ports:
       - 5000:5000
+    environment:
+        JWT_SECRET: ${JWT_SECRET}
+        DB_CONNECTION: "server=${DB_SERVER_NAME};user=${DB_USER};password=${DB_PASSWORD};database=${DB_DATABASE}"
     networks:
       - cubitwelve
     depends_on:
