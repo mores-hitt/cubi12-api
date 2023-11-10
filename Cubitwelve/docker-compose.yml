@@ -21,7 +21,7 @@ services:
         - cubitwelve
 
   backend:
-    image: dizkm8/cubitwelve_image:v1
+    image: dizkm8/cubitwelve_backend:v1
     build: .
     ports:
       - 5000:5000
@@ -32,6 +32,14 @@ services:
       - cubitwelve
     depends_on:
       - ${DB_SERVER_NAME}
+
+  frontend:
+    image: dizkm8/cubitwelve_frontend:v1
+    build: .
+    ports:
+      - 3000:3000
+    networks:
+      - cubitwelve
 
 volumes:
   cubitwelve-db:
