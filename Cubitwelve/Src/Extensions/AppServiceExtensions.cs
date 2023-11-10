@@ -50,17 +50,19 @@ namespace Cubitwelve.Src.Extensions
 
         private static void AddDbContext(IServiceCollection services)
         {
-            var user = Env.GetString("DB_USER");
-            var password = Env.GetString("DB_PASSWORD");
-            var database = Env.GetString("DB_DATABASE");
-            var connectionString = $"server=localhost;user={user};password={password};database={database}";
+            var connectionUrl = Env.GetString("DB_CONNECTION");
 
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
             // Inject DbContext
             services.AddDbContext<DataContext>(opt =>
-                            opt
-                            .UseMySql(connectionString, serverVersion)
-            );
+            {
+                opt.UseMySql(
+                    connectionUrl,
+                    serverVersion,
+                    sqlOpt =>
+                        sqlOpt.EnableRetryOnFailure(10)
+                );
+            });
         }
 
         private static void AddUnitOfWork(IServiceCollection services)

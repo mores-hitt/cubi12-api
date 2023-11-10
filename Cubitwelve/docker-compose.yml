@@ -2,20 +2,39 @@ version: '3.3'
 
 services:
   cubitwelve-db:
-    image: mysql:8.0
-    restart: always
+      image: mysql:8.0.29
+      restart: always
+      environment:
+        MYSQL_DATABASE: ${DB_DATABASE}
+        MYSQL_USER: ${DB_USER}
+        MYSQL_PASSWORD: ${DB_PASSWORD}
+        MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+        SERVICE_NAME: ${DB_SERVER_NAME}
+      ports:
+        # <Port exposed> : <MySQL Port running inside container>
+        - '3306:3306'
+      expose:
+        - '3306'
+      volumes:
+        - ${DB_SERVER_NAME}:/var/lib/mysql
+      networks:
+        - cubitwelve
+
+  backend:
     environment:
-      MYSQL_DATABASE: "${DB_DATABASE}"
-      MYSQL_USER: "${DB_USER}"
-      MYSQL_PASSWORD: "${DB_PASSWORD}"
-      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+        JWT_SECRET: ${JWT_SECRET}
+        DB_CONNECTION: "server=${DB_SERVER_NAME};user=${DB_USER};password=${DB_PASSWORD};database=${DB_DATABASE}"
+    build: .
     ports:
-      # <Port exposed> : <MySQL Port running inside container>
-      - '3306:3306'
-    expose:
-      # Opens port 3306 on the container
-      - '3306'
-    volumes:
-      - cubitwelve-db:/var/lib/mysql
+      - 5000:5000
+    networks:
+      - cubitwelve
+    depends_on:
+      - ${DB_SERVER_NAME}
+
 volumes:
   cubitwelve-db:
+
+networks:
+  cubitwelve:
+    driver: bridge
