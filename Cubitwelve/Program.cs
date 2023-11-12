@@ -2,7 +2,22 @@ using Cubitwelve.Src.Extensions;
 using Cubitwelve.Src.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.AllowAnyHeader()
+                                .AllowAnyMethod()
+                                .AllowCredentials()
+                                .WithOrigins("http://localhost:3000",
+                                              "http://localhost",
+                                              "https://cubitwelve.azurewebsites.net",
+                                              "https://cubit12.cl");
+                      });
+});
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -20,23 +35,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+app.UseCors(MyAllowSpecificOrigins);
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-
-
 app.UseIsUserEnabled();
-
-
-#region CORS_CONFIGURATION
-app.UseCors(opt =>
-{
-    opt.AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowCredentials()
-        .WithOrigins("http://localhost:3000");
-});
-#endregion
 
 app.UseHttpsRedirection();
 
