@@ -1,11 +1,3 @@
-# Template docker-push
-
-# This template allows you to build and push your docker image to a Docker Hub account.
-# The workflow allows running tests, code linting and security scans on feature branches (as well as master).
-# The docker image will be validated and pushed to the docker registry after the code is merged to master.
-
-# Prerequisites: $DOCKERHUB_USERNAME, $DOCKERHUB_PASSWORD setup as deployment variables
-
 image: atlassian/default-image:3
 
 pipelines:
@@ -46,8 +38,15 @@ pipelines:
             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
             - IMAGE_NAME=$BITBUCKET_REPO_SLUG
             - docker load --input "${IMAGE_NAME}.tar"
-            - VERSION="prod-0.1.${BITBUCKET_BUILD_NUMBER}"
-            - IMAGE=${DOCKERHUB_NAMESPACE}/${IMAGE_NAME}
+            # - VERSION="prod-0.1.${BITBUCKET_BUILD_NUMBER}"
+            - VERSION=${BITBUCKET_BUILD_NUMBER}
+            # - IMAGE=${DOCKERHUB_NAMESPACE}/${IMAGE_NAME}
+            - IMAGE=${DOCKERHUB_NAMESPACE}/${DOCKER_IMG_NAME}
+            # - docker tag "${IMAGE_NAME}" "${IMAGE}:${VERSION}"
+            # At first push to latest version
+            - docker tag "${IMAGE_NAME}" "${IMAGE}"
+            - docker push "${IMAGE}"
+            # Push with tagged version
             - docker tag "${IMAGE_NAME}" "${IMAGE}:${VERSION}"
             - docker push "${IMAGE}:${VERSION}"
           services:
