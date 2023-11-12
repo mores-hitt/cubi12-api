@@ -1,0 +1,2 @@
+docker build -t dizkm8/cubitwelve_backend:v1 .
+docker push dizkm8/cubitwelve_backend:v1

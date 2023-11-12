@@ -28,11 +28,11 @@ Follow these steps to get the project up and running on your local machine:
 
 4. Inside the folder Cubitwelve exists a file called *.env.development* change their name to *.env* and then fill the fields with the right values, this is an example:
     ```bash
+    DB_DATABASE=my_db
     DB_USER=my_epic_user
     DB_PASSWORD=my_secret_password
-    DB_DATABASE=my_db
     DB_ROOT_PASSWORD=my_secret_root_password
-    JWT_SECRET=put_your_secret_only_known_by_yourself_here
+    JWT_SECRET=put_your_secret_only_known_by_yourself_here    
     ```
     You can use whatever credentials you want
 
