@@ -6,7 +6,7 @@ Cubi12 is (currently) an open source project to help students at UCN (Universida
 ## Prerequisites
 
 - SDK [.NET 7](https://dotnet.microsoft.com/es-es/download/dotnet/7.0).
-- Port 5000 Available
+- Port 80 Available
 - git [2.33.0](https://git-scm.com/downloads) or higher.
 - [Docker](https://www.docker.com/) Is highly recommended to see the steps to install correctly docker on your machine: [Linux](https://docs.docker.com/desktop/install/linux-install/), [Windows](https://docs.docker.com/desktop/install/windows-install/) or [MacOs](https://docs.docker.com/desktop/install/mac-install/).
 
@@ -21,40 +21,40 @@ Follow these steps to get the project up and running on your local machine:
    ```bash
    cd Backend
    ```
-3. Change directory to the "Cubitwelve" folder, where the main application code is located.
-   ```bash
-   cd Cubitwelve
-   ```
 
-4. Inside the folder Cubitwelve exists a file called *.env.development* change their name to *.env* and then fill the fields with the right values, this is an example:
+3. Inside the folder Cubitwelve exists a file called *.env.development* change their name to *.env* 
+
+    **Note:** If you change some field you also need to update the DB_CONNECTION to match the database connection url provided to backend.
     ```bash
-    DB_DATABASE=my_db
-    DB_USER=my_epic_user
-    DB_PASSWORD=my_secret_password
-    DB_ROOT_PASSWORD=my_secret_root_password
-    JWT_SECRET=put_your_secret_only_known_by_yourself_here    
+    DB_DATABASE=sampledb
+    DB_USER=sample_user
+    DB_PASSWORD=sample_password
+    DB_ROOT_PASSWORD=root_password
+    JWT_SECRET=secret_only_knewed_by_you
+    DB_CONNECTION=server=localhost;user=sample_user;password=sample_password;database=sampledb  
     ```
-    You can use whatever credentials you want
 
 4. Install project dependencies using dotnet sdk.
    ```bash
    dotnet restore
    ```
 
-5. Setup the container for mySQL database.
+5. Setup the container for mySQL database, because the config file do not have the default name of docker-compose.yml the command needs to include *--file* flag
     ```bash
-    docker-compose up
+    docker-compose --file dev.yml up -d
     ```
 
-5. Run the project 
+5. Is recommended to wait 5 seconds and the run the project, thus the database structure finish to build before backend tries to connect.
+
+    Either way, the backend tries until 10 times to connect if the database is not responding
     ```bash
     dotnet run
     ```
 
-This will start the development server, and you can access the app in your web browser by visiting http://localhost:5000.
+This will start the development server, and you can access the app in your web browser by visiting http://localhost:80.
 
 ## Use
 
-To test the endpoints you can acces to OpenAPI Swagger interactive documentation at http://localhost:5000/swagger/index.html
+To test the endpoints you can acces to OpenAPI Swagger interactive documentation at http://localhost:80/swagger/index.html
 
 Also you can use [Postman](https://www.postman.com/) or another software to test the API.
