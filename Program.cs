@@ -15,7 +15,7 @@ builder.Services.AddCors(options =>
                                 .WithOrigins("http://localhost:3000",
                                               "http://localhost",
                                               "https://cubitwelve.azurewebsites.net",
-                                              "https://cubit12.cl");
+                                              "https://cubi12.cl");
                       });
 });
 // Add services to the container.
