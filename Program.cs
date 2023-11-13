@@ -13,9 +13,10 @@ builder.Services.AddCors(options =>
                                 .AllowAnyMethod()
                                 .AllowCredentials()
                                 .WithOrigins("http://localhost:3000",
-                                              "http://localhost",
-                                              "https://cubitwelve.azurewebsites.net",
-                                              "https://cubi12.cl");
+                                            "http://localhost:8100",
+                                            "http://localhost",
+                                            "https://cubitwelve.azurewebsites.net",
+                                            "https://cubi12.cl");
                       });
 });
 // Add services to the container.
