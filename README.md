@@ -1,7 +1,7 @@
 # CUBI12 - API
-API RESTful used as backend for Cubi12 software using .NET 7 and mySQL.
+API RESTful used as backend for Cubi12 software using .NET 7 and mySQL vesrion 8.
 
-Cubi12 is (currently) an open source project to help students at UCN (Universidad CatÃ³lica del Norte) at Chile to understand all the subjects they can take and their progress in the career.
+Cubi12 is (currently) an open source project to help students at UCN (Universidad Católica del Norte) at Chile to understand all the subjects they can take and their progress in the career.
 
 ## Prerequisites
 
