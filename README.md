@@ -17,12 +17,17 @@ Follow these steps to get the project up and running on your local machine:
 
 1. Clone the repository to your local machine.
 
-2. Navigate to the project directory.
+2. Navigate to the root folder.
    ```bash
    cd Backend
    ```
 
-3. Inside the folder Cubitwelve exists a file called *.env.development* change their name to *.env* 
+3. Inside the project you will see 2 folders: Cubitwelve and Cubitwelve.tests, navigate to the first.
+    ```bash
+    cd Cubitwelve
+    ```
+
+4. Inside the folder Cubitwelve exists a file called *.env.development* change their name to *.env* 
 
     **Note:** If you change some field you also need to update the DB_CONNECTION to match the database connection url provided to backend.
     ```bash
@@ -30,21 +35,21 @@ Follow these steps to get the project up and running on your local machine:
     DB_USER=sample_user
     DB_PASSWORD=sample_password
     DB_ROOT_PASSWORD=root_password
-    JWT_SECRET=secret_only_knewed_by_you
-    DB_CONNECTION=server=localhost;user=sample_user;password=sample_password;database=sampledb  
+    JWT_SECRET=secret_only_knewed_by_yourself_and_nobody_else
+    DB_CONNECTION=server=localhost;user=sample_user;password=sample_password;database=sampledb
     ```
 
-4. Install project dependencies using dotnet sdk.
+5. Install project dependencies using dotnet sdk.
    ```bash
    dotnet restore
    ```
 
-5. Setup the container for mySQL database, because the config file do not have the default name of docker-compose.yml the command needs to include *--file* flag
+6. Setup the container for mySQL database, because the config file do not have the default name of docker-compose.yml the command needs to include *--file* flag
     ```bash
     docker-compose --file dev.yml up -d
     ```
 
-5. Is recommended to wait 5 seconds and the run the project, thus the database structure finish to build before backend tries to connect.
+7. Is recommended to wait 5 seconds and the run the project, thus the database structure finish to build before backend tries to connect.
 
     Either way, the backend tries until 10 times to connect if the database is not responding
     ```bash
@@ -58,3 +63,5 @@ This will start the development server, and you can access the app in your web b
 To test the endpoints you can acces to OpenAPI Swagger interactive documentation at http://localhost:80/swagger/index.html
 
 Also you can use [Postman](https://www.postman.com/) or another software to test the API.
+
+## Testing
