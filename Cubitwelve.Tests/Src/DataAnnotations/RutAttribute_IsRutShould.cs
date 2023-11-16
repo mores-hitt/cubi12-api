@@ -1,6 +1,6 @@
 using Cubitwelve.Src.DataAnnotations;
 
-namespace Cubitwelve.Tests
+namespace Cubitwelve.Tests.Src.DataAnnotations
 {
     public class RutAttribute_IsRutShould
     {
