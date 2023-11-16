@@ -8,7 +8,7 @@ Cubi12 is (currently) an open source project to help students at UCN (Universida
 - SDK [.NET 7](https://dotnet.microsoft.com/es-es/download/dotnet/7.0).
 - Port 80 Available
 - git [2.33.0](https://git-scm.com/downloads) or higher.
-- [Docker](https://www.docker.com/) Is highly recommended to see the steps to install correctly docker on your machine: [Linux](https://docs.docker.com/desktop/install/linux-install/), [Windows](https://docs.docker.com/desktop/install/windows-install/) or [MacOs](https://docs.docker.com/desktop/install/mac-install/).
+- [Docker](https://www.docker.com/) **Note**: If you do not have installed is highly recommended to see the steps to correctly install docker on your machine with [Linux](https://docs.docker.com/desktop/install/linux-install/), [Windows](https://docs.docker.com/desktop/install/windows-install/) or [MacOs](https://docs.docker.com/desktop/install/mac-install/).
 
 
 ## Getting Started
