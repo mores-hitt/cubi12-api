@@ -2,11 +2,12 @@ using Cubitwelve.Src.Extensions;
 using Cubitwelve.Src.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var localAllowSpecificOrigins = "_localAllowSpecificOrigins";
+var deployedAllowSpecificOrigins = "_deployedAllowSpecificOrigins";
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
+    options.AddPolicy(name: localAllowSpecificOrigins,
                       policy =>
                       {
                           policy.AllowAnyHeader()
@@ -14,11 +15,19 @@ builder.Services.AddCors(options =>
                                 .AllowCredentials()
                                 .WithOrigins("http://localhost:3000",
                                             "http://localhost:8100",
-                                            "http://localhost",
-                                            "https://cubitwelve.azurewebsites.net",
+                                            "http://localhost");
+                      });
+    options.AddPolicy(name: deployedAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.AllowAnyHeader()
+                                .AllowAnyMethod()
+                                .AllowCredentials()
+                                .WithOrigins("https://cubitwelve.azurewebsites.net",
                                             "https://cubi12.cl");
                       });
 });
+
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -26,18 +35,21 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
-// Because it's the first middleware, it will catch all exceptions
-app.UseExceptionHandling(); 
 
-// Configure the HTTP request pipeline.
+// Because it's the first middleware, it will catch all exceptions
+app.UseExceptionHandling();
+
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(localAllowSpecificOrigins);
 }
-
-
-app.UseCors(MyAllowSpecificOrigins);
+else
+{
+    app.UseCors(deployedAllowSpecificOrigins);
+}
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -48,7 +60,7 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
-// Create, migrate and seed database
+// Database Bootstrap
 AppSeedService.SeedDatabase(app);
 
 app.Run();
