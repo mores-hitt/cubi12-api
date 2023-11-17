@@ -21,5 +21,12 @@ namespace Cubitwelve.Src.Controllers
             var subjects = await _subjectsService.GetAll();
             return Ok(subjects);
         }
+
+        [HttpGet("relationships")]
+        public async Task<IActionResult> GetAllRelationships()
+        {
+            var relationships = await _subjectsService.GetAllRelationships();
+            return Ok(relationships);
+        }
     }
 }
