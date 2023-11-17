@@ -11,15 +11,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cubitwelve.Src.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231102150359_InitialMigrations")]
-    partial class InitialMigrations
+    [Migration("20231117063757_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "7.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Cubitwelve.Src.Models.Career", b =>
@@ -86,6 +86,10 @@ namespace Cubitwelve.Src.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
@@ -126,11 +130,13 @@ namespace Cubitwelve.Src.Data.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("PreSubjectId")
-                        .HasColumnType("int");
+                    b.Property<string>("PreSubjectCode")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                    b.Property<string>("SubjectCode")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
@@ -139,10 +145,6 @@ namespace Cubitwelve.Src.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PreSubjectId");
-
-                    b.HasIndex("SubjectId");
 
                     b.ToTable("SubjectsRelationships");
                 });
@@ -238,25 +240,6 @@ namespace Cubitwelve.Src.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UsersProgress");
-                });
-
-            modelBuilder.Entity("Cubitwelve.Src.Models.SubjectRelationship", b =>
-                {
-                    b.HasOne("Cubitwelve.Src.Models.Subject", "PreSubject")
-                        .WithMany()
-                        .HasForeignKey("PreSubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Cubitwelve.Src.Models.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("PreSubject");
-
-                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("Cubitwelve.Src.Models.User", b =>
