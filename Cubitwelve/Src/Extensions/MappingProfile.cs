@@ -1,6 +1,7 @@
 using AutoMapper;
 using Cubitwelve.Src.DTOs.Auth;
 using Cubitwelve.Src.DTOs.Models;
+using Cubitwelve.Src.DTOs.Subjects;
 using Cubitwelve.Src.Models;
 
 namespace Cubitwelve.Src.Extensions
@@ -14,6 +15,7 @@ namespace Cubitwelve.Src.Extensions
             CreateMap<User, UserDto>();
             CreateMap<User, LoginResponseDto>();
             CreateMap<RegisterStudentDto, User>();
+            CreateMap<Subject, SubjectDto>();
         }
     }
 }
