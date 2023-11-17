@@ -13,6 +13,6 @@ namespace Cubitwelve.Src.Common.Constants
         public static partial Regex RutRegex();
 
         [GeneratedRegex("^([a-zA-Z]+\\.)*ucn\\.cl$", RegexOptions.Compiled)]
-        public static partial Regex UCNEmailRegex();
+        public static partial Regex UCNEmailDomainRegex();
     }
 }
