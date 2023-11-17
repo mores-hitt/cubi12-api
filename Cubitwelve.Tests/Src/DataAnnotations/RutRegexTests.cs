@@ -2,7 +2,7 @@ using Cubitwelve.Src.DataAnnotations;
 
 namespace Cubitwelve.Tests.Src.DataAnnotations
 {
-    public class RutAttribute_IsRutShould
+    public class RutRegexTests
     {
         private const string RUT_WITHOUT_HYPHEN = "20.767.6918";
         private const string RUT_WITHOUT_DOTS = "20767691-8";
