@@ -23,7 +23,7 @@ namespace Cubitwelve.Src.DTOs.Auth
         public string RUT { get; set; } = null!;
 
         [Required]
-        [EmailAddress]
+        [UCNEmailAddress("Email must be from Universidad Catolica del Norte (UCN)")]
         public string Email { get; set; } = null!;
 
         [Required]

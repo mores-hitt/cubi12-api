@@ -3,8 +3,17 @@ using Cubitwelve.Src.Common.Constants;
 
 namespace Cubitwelve.Src.DataAnnotations
 {
+    /// <summary>
+    /// Validates a email address from Universidad Catolica del Norte (UCN)
+    /// </summary>
     public class UCNEmailAddressAttribute : ValidationAttribute
     {
+        public UCNEmailAddressAttribute() { }
+
+        public UCNEmailAddressAttribute(Func<string> errorMessageAccessor) : base(errorMessageAccessor) { }
+
+        public UCNEmailAddressAttribute(string errorMessage) : base(errorMessage) { }
+
         public override bool IsValid(object? value)
         {
             if (value is not string email) return false;
