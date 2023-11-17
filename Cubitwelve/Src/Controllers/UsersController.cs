@@ -1,15 +1,11 @@
-using Cubitwelve.Src.Common.Constants;
 using Cubitwelve.Src.DTOs.Models;
 using Cubitwelve.Src.DTOs.Profile;
-using Cubitwelve.Src.Exceptions;
 using Cubitwelve.Src.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cubitwelve.Src.Controllers
 {
-    [Authorize]
-    public class UsersController : BaseApiController
+    public class UsersController : BaseAuthApiController
     {
         private readonly IUsersService _usersService;
 

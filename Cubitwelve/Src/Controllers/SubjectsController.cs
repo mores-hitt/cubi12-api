@@ -1,12 +1,10 @@
 using Cubitwelve.Src.DTOs.Subjects;
 using Cubitwelve.Src.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cubitwelve.Src.Controllers
 {
-    [Authorize]
-    public class SubjectsController : BaseApiController
+    public class SubjectsController : BaseAuthApiController
     {
         private readonly ISubjectsService _subjectsService;
 
