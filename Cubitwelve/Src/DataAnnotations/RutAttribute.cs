@@ -9,7 +9,7 @@ namespace Cubitwelve.Src.DataAnnotations
         public override bool IsValid(object? value)
         {
             var rut = value?.ToString() ?? string.Empty;
-            if (rut.Length == 12 || rut.Length == 11)
+            if (rut.Length == 11 || rut.Length == 12)
             {
                 return CheckRut(rut);
             }
