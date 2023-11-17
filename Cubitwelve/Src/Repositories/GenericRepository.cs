@@ -28,8 +28,9 @@ namespace Cubitwelve.Src.Repositories
 
             if (typeof(BaseModel).IsAssignableFrom(typeof(TEntity)))
             {
-                //Ignore warning, the if statement above ensures that TEntity is BaseModel
+#pragma warning disable CS8602 // Already checked in if statement
                 query = query.Where(x => (x as BaseModel).DeletedAt == null);
+#pragma warning restore CS8602
             }
 
             if (filter is not null)
