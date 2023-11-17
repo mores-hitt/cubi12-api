@@ -21,5 +21,11 @@ namespace Cubitwelve.Src.Services
             var subjects = await _unitOfWork.SubjectsRepository.Get();
             return _mapperService.MapList<Subject, SubjectDto>(subjects);
         }
+
+        public async Task<List<SubjectRelationshipDto>> GetAllRelationships()
+        {
+            var relationships = await _unitOfWork.SubjectRelationshipsRepository.Get();
+            return _mapperService.MapList<SubjectRelationship, SubjectRelationshipDto>(relationships);
+        }
     }
 }
