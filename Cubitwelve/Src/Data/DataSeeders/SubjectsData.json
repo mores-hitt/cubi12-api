@@ -18,7 +18,7 @@
     "credits": 6
   },
   {
-    "code": "IDU-001",
+    "code": "IUE-001",
     "name": "Identidad, universidad, equidad y género",
     "department": "Escuela de educación",
     "credits": 1
@@ -36,7 +36,7 @@
     "credits": 2
   },
   {
-    "code": "PRI-001",
+    "code": "PII-001",
     "name": "Proyecto Introducción a la ingeniería",
     "department": "Facultad de Ingeniería y Ciencias Geológicas",
     "credits": 5
@@ -144,7 +144,7 @@
     "credits": 5
   },
   {
-    "code": "EMP-001",
+    "code": "EPR-001",
     "name": "Emprendimiento",
     "department": "departamento de ingeniería de sistemas y computación",
     "credits": 3
@@ -276,13 +276,13 @@
     "credits": 5
   },
   {
-    "code": "SI",
+    "code": "SDI-002",
     "name": "Sistemas de información II",
     "department": "departamento de ingeniería de sistemas y computación",
     "credits": 5
   },
   {
-    "code": "SDI-002",
+    "code": "GPT-001",
     "name": "Gestión de proyectos TI",
     "department": "departamento de ingeniería de sistemas y computación",
     "credits": 5
@@ -326,7 +326,7 @@
   {
     "code": "EPF-006",
     "name": "Electivo profesional VI",
-    "department": "departamento de ingeniería de sistemas y computación",
+    "department": "departamento de ingeni   ería de sistemas y computación",
     "credits": 5
   },
   {
