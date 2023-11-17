@@ -19,5 +19,11 @@ namespace Cubitwelve.Src.Repositories.Interfaces
         /// </summary>
         /// <value>A Concrete class for IUsersRepository</value>
         public IUsersRepository UsersRepository { get; }
+
+        /// <summary>
+        /// Gets the subjects repository.
+        /// </summary>
+        /// <value>A Concrete class for ISubjectsRepository</value>
+        public ISubjectsRepository SubjectsRepository { get; }  
     }
 }
