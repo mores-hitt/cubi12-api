@@ -21,7 +21,7 @@ namespace Cubitwelve.Src.Controllers
         }
 
         [HttpGet("relationships")]
-        public async Task<IActionResult> GetAllRelationships()
+        public async Task<ActionResult<List<SubjectRelationshipDto>>> GetAllRelationships()
         {
             var relationships = await _subjectsService.GetAllRelationships();
             return Ok(relationships);

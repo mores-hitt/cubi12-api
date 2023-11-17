@@ -9,5 +9,7 @@ namespace Cubitwelve.Src.Models
         public string Department { get; set; } = null!;
 
         public int Credits { get; set; }
+
+        public int Semester { get; set; } // Represents the semester in which the subject is taught.
     }
 }
