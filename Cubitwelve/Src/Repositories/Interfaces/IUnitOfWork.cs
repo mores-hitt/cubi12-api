@@ -25,5 +25,11 @@ namespace Cubitwelve.Src.Repositories.Interfaces
         /// </summary>
         /// <value>A Concrete class for ISubjectsRepository</value>
         public ISubjectsRepository SubjectsRepository { get; }  
+
+        /// <summary>
+        /// Gets the subject relationships repository.
+        /// </summary>
+        /// <value>A Concrete class for ISubjectRelationshipsRepository</value>
+        public ISubjectRelationshipsRepository SubjectRelationshipsRepository { get; }
     }
 }
