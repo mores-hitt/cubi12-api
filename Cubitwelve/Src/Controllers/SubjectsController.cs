@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Cubitwelve.Src.Controllers
 {
-    public class SubjectsController : BaseAuthApiController
+    public class SubjectsController : BaseApiController
     {
         private readonly ISubjectsService _subjectsService;
 
