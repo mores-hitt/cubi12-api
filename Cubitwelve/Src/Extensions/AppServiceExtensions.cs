@@ -53,17 +53,7 @@ namespace Cubitwelve.Src.Extensions
         {
             var connectionUrl = Env.GetString("DB_CONNECTION");
 
-            var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
-            // Inject DbContext
-            services.AddDbContext<DataContext>(opt =>
-            {
-                opt.UseMySql(
-                    connectionUrl,
-                    serverVersion,
-                    sqlOpt =>
-                        sqlOpt.EnableRetryOnFailure(10)
-                );
-            });
+            services.AddDbContext<DataContext>(opt => opt.UseSqlServer(connectionUrl));
         }
 
         private static void AddUnitOfWork(IServiceCollection services)
