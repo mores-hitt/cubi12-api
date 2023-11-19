@@ -171,7 +171,7 @@
   
   {
     "code": "ELM-001",
-    "name": "Electromagnetismo",
+    "name": "Electro Magnetismo",
     "department": "departamento de física",
     "credits": 6,
     "semester": 4
@@ -192,7 +192,7 @@
   },
   {
     "code": "EPR-001",
-    "name": "Emprendimiento",
+    "name": "Empren dimiento",
     "department": "departamento de ingeniería de sistemas y computación",
     "credits": 3,
     "semester": 4
