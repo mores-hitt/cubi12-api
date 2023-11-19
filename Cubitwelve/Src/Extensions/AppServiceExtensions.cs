@@ -53,7 +53,15 @@ namespace Cubitwelve.Src.Extensions
         {
             var connectionUrl = Env.GetString("DB_CONNECTION");
 
-            services.AddDbContext<DataContext>(opt => opt.UseSqlServer(connectionUrl));
+            services.AddDbContext<DataContext>(opt => {
+                opt.UseSqlServer(connectionUrl, sqlServerOpt => {
+                    sqlServerOpt.EnableRetryOnFailure(
+                        maxRetryCount: 10,
+                        maxRetryDelay: System.TimeSpan.FromSeconds(30),
+                        errorNumbersToAdd: null
+                    );
+                });
+            });
         }
 
         private static void AddUnitOfWork(IServiceCollection services)
