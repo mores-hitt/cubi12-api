@@ -1,20 +1,10 @@
 version: '3.3'
 
 services:
-  cubitwelve-db:
-    image: mysql:8.0.29
-    restart: always
+  sqldata:
+    image: mcr.microsoft.com/mssql/server
     environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+    - ACCEPT_EULA=Y
     ports:
-      - 3306:3306
-    expose:
-      - '3306'
-    volumes:
-      - cubitwelve-db:/var/lib/mysql
-
-volumes:
-  cubitwelve-db:
+    - "5434:1433"
