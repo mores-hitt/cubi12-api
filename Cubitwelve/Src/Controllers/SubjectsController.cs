@@ -1,5 +1,7 @@
+using Cubitwelve.Src.DTOs.Progress;
 using Cubitwelve.Src.DTOs.Subjects;
 using Cubitwelve.Src.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cubitwelve.Src.Controllers
@@ -40,5 +42,15 @@ namespace Cubitwelve.Src.Controllers
             var postRequisitesMap = await _subjectsService.GetPostRequisitesMap();
             return Ok(postRequisitesMap);
         }
+
+        [HttpGet("user-progress")]
+        [Authorize]
+        public async Task<ActionResult<List<UserProgressDto>>> GetUserProgress()
+        {
+            var userProgress = await _subjectsService.GetUserProgress();
+            return Ok(userProgress);
+        }
+
+        
     }
 }

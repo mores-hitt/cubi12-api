@@ -25,5 +25,12 @@ namespace Cubitwelve.Src.Repositories.Interfaces
         /// <param name="rut">The RUT of the user</param>
         /// <returns>User or null</returns>
         public Task<User?> GetByRut(string rut);
+
+        /// <summary>
+        /// Get user progress by user id
+        /// </summary>
+        /// <param name="userId">Id of the user</param>
+        /// <returns>Progress of the User</returns>
+        public Task<List<UserProgress>?> GetProgressByUser(int userId);
     }
 }
