@@ -41,5 +41,15 @@ namespace Cubitwelve.Src.Repositories
                         .FirstOrDefaultAsync(x => x.RUT == rut);
             return user;
         }
+
+        public async Task<List<UserProgress>?> GetProgressByUser(int userId)
+        {
+            var userProgress = await context.UsersProgress
+                                .Where(x => x.UserId == userId)
+                                .Include(x => x.User)
+                                .Include(x => x.Subject)
+                                .ToListAsync();
+            return userProgress;
+        }
     }
 }

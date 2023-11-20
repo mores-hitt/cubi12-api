@@ -1,3 +1,4 @@
+using Cubitwelve.Src.DTOs.Progress;
 using Cubitwelve.Src.DTOs.Subjects;
 
 namespace Cubitwelve.Src.Services.Interfaces
@@ -19,5 +20,11 @@ namespace Cubitwelve.Src.Services.Interfaces
         /// </summary>
         /// <returns>Dictionary with subject key and value postRequisites subjects list</returns>
         public Task<Dictionary<string, List<string>>> GetPostRequisitesMap();
+        
+        /// <summary>
+        /// Get all subjects passed of the current user based on the JWT token
+        /// </summary>
+        /// <returns>List with passed subjects</returns>
+        public Task<List<UserProgressDto>> GetUserProgress();
     }
 }
