@@ -1,6 +1,8 @@
 using Cubitwelve.Src.DTOs.Models;
 using Cubitwelve.Src.DTOs.Profile;
+using Cubitwelve.Src.DTOs.Progress;
 using Cubitwelve.Src.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cubitwelve.Src.Controllers
@@ -30,6 +32,14 @@ namespace Cubitwelve.Src.Controllers
         {
             var user = await _usersService.GetProfile();
             return Ok(user);
+        }
+
+        [HttpGet("my-progress")]
+        [Authorize]
+        public async Task<ActionResult<List<UserProgressDto>>> GetUserProgress()
+        {
+            var userProgress = await _usersService.GetUserProgress();
+            return Ok(userProgress);
         }
     }
 }

@@ -1,5 +1,6 @@
 using Cubitwelve.Src.DTOs.Models;
 using Cubitwelve.Src.DTOs.Profile;
+using Cubitwelve.Src.DTOs.Progress;
 using Cubitwelve.Src.Exceptions;
 using Cubitwelve.Src.Models;
 using Cubitwelve.Src.Repositories.Interfaces;
@@ -75,7 +76,26 @@ namespace Cubitwelve.Src.Services
             var userEmail = _authService.GetUserEmailInToken();
             return GetByEmail(userEmail);
         }
-        
+
+
+        public async Task<List<UserProgressDto>> GetUserProgress()
+        {
+            var userEmail = _authService.GetUserEmailInToken();
+            var user = await _unitOfWork.UsersRepository.GetByEmail(userEmail) ??
+                          throw new EntityNotFoundException("User not found");
+            var userId = user.Id;
+
+            var userProgress = await _unitOfWork.UsersRepository.GetProgressByUser(userId) ?? new List<UserProgress>();
+
+            var mappedProgress = userProgress.Select(up => new UserProgressDto()
+            {
+                Id = up.Id,
+                SubjectCode = up.Subject.Code,
+            }).ToList();
+
+            return mappedProgress;
+        }
+
 
         #region PRIVATE_METHODS
 

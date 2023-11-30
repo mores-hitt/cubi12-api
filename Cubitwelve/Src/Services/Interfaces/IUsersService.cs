@@ -1,5 +1,6 @@
 using Cubitwelve.Src.DTOs.Models;
 using Cubitwelve.Src.DTOs.Profile;
+using Cubitwelve.Src.DTOs.Progress;
 
 namespace Cubitwelve.Src.Services.Interfaces
 {
@@ -16,6 +17,8 @@ namespace Cubitwelve.Src.Services.Interfaces
         public Task<bool> IsEnabled(string email);
 
         public Task<UserDto> GetProfile();
+
+        public Task<List<UserProgressDto>> GetUserProgress();
 
         
     }
