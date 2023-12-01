@@ -1,5 +1,7 @@
 using Cubitwelve.Src.DTOs.Models;
 using Cubitwelve.Src.DTOs.Profile;
+using Cubitwelve.Src.DTOs.Progress;
+using Cubitwelve.Src.DTOs.Subjects;
 using Cubitwelve.Src.Exceptions;
 using Cubitwelve.Src.Models;
 using Cubitwelve.Src.Repositories.Interfaces;
@@ -66,8 +68,6 @@ namespace Cubitwelve.Src.Services
             {
                 return false;
             }
-
-
         }
 
         public Task<UserDto> GetProfile()
@@ -75,7 +75,88 @@ namespace Cubitwelve.Src.Services
             var userEmail = _authService.GetUserEmailInToken();
             return GetByEmail(userEmail);
         }
+
+
+        public async Task<List<UserProgressDto>> GetUserProgress()
+        {
+            var userId = await GetUserIdByToken();
+
+            var userProgress = await _unitOfWork.UsersRepository.GetProgressByUser(userId) ?? new List<UserProgress>();
+
+            var mappedProgress = userProgress.Select(up => new UserProgressDto()
+            {
+                Id = up.Id,
+                SubjectCode = up.Subject.Code,
+            }).ToList();
+
+            return mappedProgress;
+        }
         
+        public async Task SetUserProgress(List<UpdateSubjectProgressDto> subjects)
+        {
+            // Get all subjects Id and validate if each one exists
+            var subjectsId = await MapAndValidateToSubjectId(subjects);
+
+            var userId = await GetUserIdByToken();
+            // Get Current User Progress
+            var userProgress = await _unitOfWork.UsersRepository.GetProgressByUser(userId) ?? new List<UserProgress>();
+
+            var progressToAdd = new List<UserProgress>();
+            var progressToRemove = new List<UserProgress>();
+
+            subjectsId.ForEach(s =>
+            {
+                var userSubject = userProgress.FirstOrDefault(u => u.SubjectId == s.Item1);
+                if (userSubject is null && s.Item2)
+                {
+                    progressToAdd.Add(new UserProgress
+                    {
+                        UserId = userId,
+                        SubjectId = s.Item1,
+                    });
+                }
+                else if (userSubject is not null && !s.Item2)
+                {
+                    progressToRemove.Add(new UserProgress
+                    {
+                        UserId = userId,
+                        SubjectId = s.Item1,
+                    });
+                }
+                else
+                {
+                    // TODO: Replace with new custom exception
+                    throw new Exception($"Cannot add or remove subject with ID: {s.Item1}");
+                }
+            });
+
+
+            var addResult = await _unitOfWork.UsersRepository.AddProgress(progressToAdd);
+            var removeResult = await _unitOfWork.UsersRepository.RemoveProgress(progressToRemove, userId);
+
+            if (!removeResult && !addResult)
+                throw new InternalErrorException("Cannot update user progress");
+        }
+
+        /// <summary>
+        /// Validate if the subjects exists in the database based on the subjectId and then retrieve the entities
+        /// </summary>
+        /// <param name="subjects">UpdateSubjectProgressDto to check</param>
+        /// <returns>Async Task</returns>
+        /// <exception cref="EntityNotFoundException">If any subject do not exists</exception> <summary>
+        private async Task<List<Tuple<int, bool>>> MapAndValidateToSubjectId(List<UpdateSubjectProgressDto> subjects)
+        {
+            var allSubjects = await _unitOfWork.SubjectsRepository.Get();
+            var mappedSubjects = subjects.Select(s =>
+            {
+                if (allSubjects.FirstOrDefault(sub => sub.Id == s.SubjectId) is null)
+                    throw new EntityNotFoundException($"Subject with ID: {s.SubjectId} not found");
+                return new Tuple<int, bool>(s.SubjectId, s.IsAdded);
+            }).ToList();
+
+            return mappedSubjects;
+        }
+
 
         #region PRIVATE_METHODS
 
@@ -91,6 +172,14 @@ namespace Cubitwelve.Src.Services
             var user = await _unitOfWork.UsersRepository.GetByID(id)
                                         ?? throw new EntityNotFoundException($"User with ID: {id} not found");
             return user;
+        }
+
+        private async Task<int> GetUserIdByToken()
+        {
+            var userEmail = _authService.GetUserEmailInToken();
+            var user = await _unitOfWork.UsersRepository.GetByEmail(userEmail) ??
+                          throw new EntityNotFoundException("User not found");
+            return user.Id;
         }
 
         #endregion

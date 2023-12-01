@@ -42,15 +42,5 @@ namespace Cubitwelve.Src.Controllers
             var postRequisitesMap = await _subjectsService.GetPostRequisitesMap();
             return Ok(postRequisitesMap);
         }
-
-        [HttpGet("user-progress")]
-        [Authorize]
-        public async Task<ActionResult<List<UserProgressDto>>> GetUserProgress()
-        {
-            var userProgress = await _subjectsService.GetUserProgress();
-            return Ok(userProgress);
-        }
-
-        
     }
 }

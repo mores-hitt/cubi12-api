@@ -1,5 +1,7 @@
 using Cubitwelve.Src.DTOs.Models;
 using Cubitwelve.Src.DTOs.Profile;
+using Cubitwelve.Src.DTOs.Progress;
+using Cubitwelve.Src.DTOs.Subjects;
 
 namespace Cubitwelve.Src.Services.Interfaces
 {
@@ -17,6 +19,9 @@ namespace Cubitwelve.Src.Services.Interfaces
 
         public Task<UserDto> GetProfile();
 
+        public Task<List<UserProgressDto>> GetUserProgress();
+
+        public Task SetUserProgress(List<UpdateSubjectProgressDto> subjects);
         
     }
 }
