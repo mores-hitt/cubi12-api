@@ -51,5 +51,24 @@ namespace Cubitwelve.Src.Repositories
                                 .ToListAsync();
             return userProgress;
         }
+
+        public async Task<bool> AddProgress(List<UserProgress> progress)
+        {
+            await context.UsersProgress.AddRangeAsync(progress);
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> RemoveProgress(List<UserProgress> progress, int userId)
+        {
+            var subjectIdsToRemove = progress.Select(p => p.SubjectId).ToList();
+
+            var result = await context.UsersProgress
+                .Where(u => u.UserId == userId && subjectIdsToRemove
+                .Contains(u.SubjectId))
+                .ExecuteDeleteAsync() > 0;
+
+            return result;
+
+        }
     }
 }
