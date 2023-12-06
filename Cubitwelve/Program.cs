@@ -23,7 +23,7 @@ builder.Services.AddCors(options =>
                           policy.AllowAnyHeader()
                                 .AllowAnyMethod()
                                 .AllowCredentials()
-                                .WithOrigins("https://cubitwelve.azurewebsites.net",
+                                .WithOrigins("https://cubi12.azurewebsites.net",
                                             "https://cubi12.cl",
                                             "https://www.cubi12.cl");
                       });
