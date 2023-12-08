@@ -10,6 +10,7 @@ namespace Cubitwelve.Src.Repositories
         private IUsersRepository _usersRepository = null!;
         private ISubjectsRepository _subjectsRepository = null!;
         private ISubjectRelationshipsRepository _subjectRelationshipsRepository = null!;
+        private IResourcesRepository _resourcesRepository = null!;
 
         public UnitOfWork(DataContext context)
         {
@@ -61,6 +62,15 @@ namespace Cubitwelve.Src.Repositories
             {
                 _subjectRelationshipsRepository ??= new SubjectRelationshipsRepository(_context);
                 return _subjectRelationshipsRepository;
+            }
+        }
+
+        public IResourcesRepository ResourcesRepository
+        {
+            get
+            {
+                _resourcesRepository ??= new ResourcesRepository(_context);
+                return _resourcesRepository;
             }
         }
 
