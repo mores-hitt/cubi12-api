@@ -1,0 +1,42 @@
+﻿[
+  {
+    "Name": "Cálculo 1",
+    "Description": "Curso fundamental de cálculo que aborda conceptos esenciales para entender y aplicar las matemáticas en diversos contextos. Introduce herramientas clave para resolver problemas matemáticos en la ingeniería y ciencias.",
+    "Semester": 1
+  },
+  {
+    "Name": "Álgebra 1",
+    "Description": "Curso introductorio de álgebra que proporciona las bases teóricas y prácticas para comprender y resolver problemas algebraicos. Explora aplicaciones en el análisis de datos y modelado matemático.",
+    "Semester": 1
+  },
+  {
+    "Name": "Introducción a la física",
+    "Description": "Curso que presenta los principios fundamentales de la física, destacando la aplicación de teorías a situaciones del mundo real. Proporciona una base sólida para futuros estudios en ciencias físicas.",
+    "Semester": 1
+  },
+  {
+    "Name": "Cálculo II",
+    "Description": "Curso avanzado de cálculo que profundiza en conceptos clave, como integrales y derivadas, y explora aplicaciones prácticas en campos como la ingeniería y la física. Requiere conocimientos previos de cálculo.",
+    "Semester": 2
+  },
+  {
+    "Name": "Álgebra II",
+    "Description": "Curso avanzado de álgebra que expande los conocimientos adquiridos en álgebra 1. Se centra en aplicaciones avanzadas, incluido el álgebra lineal, con énfasis en problemas del mundo real.",
+    "Semester": 2
+  },
+  {
+    "Name": "Mecánica",
+    "Description": "Curso que explora los principios fundamentales de la mecánica clásica. Proporciona una comprensión profunda de los movimientos y fuerzas, con aplicaciones prácticas en la ingeniería y la física aplicada.",
+    "Semester": 2
+  },
+  {
+    "Name": "Programación",
+    "Description": "Curso introductorio a la programación que enseña los fundamentos de la lógica de programación y resolución de problemas algorítmicos. Utiliza un enfoque práctico con aplicaciones relevantes en la informática y la tecnología.",
+    "Semester": 2
+  },
+  {
+    "Name": "Química General",
+    "Description": "Curso introductorio de química que cubre los principios esenciales de la química. Se enfoca en comprender la estructura de la materia y las reacciones químicas, con aplicaciones en la industria y la investigación.",
+    "Semester": 2
+  }
+]
