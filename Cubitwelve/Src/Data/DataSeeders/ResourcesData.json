@@ -1,2 +1,22 @@
-﻿{
-}
+﻿[
+    {
+        "type": "prueba",
+        "typeCode": 1,
+        "Url": "https://drive.google.com/file/d/1ZhGGt9Difp3pEHZtSqpfhKUIZf_Ptma-/view?usp=sharing",
+        "SubjectResourceId": 1
+    },
+    {
+        "type": "prueba",
+        "typeCode": 2,
+        "Url": "https://drive.google.com/file/d/1wqZJb85PAhJXp7KN4UuHrVM2wjgn43El/view?usp=sharing",
+        "SubjectResourceId": 1
+    },
+    {
+        "type": "prueba",
+        "typeCode": 2,
+        "Url": "https://drive.google.com/file/d/1zD0enCebRDwUUKPyn-28fIEQSVP8nBfX/view?usp=sharing",
+        "SubjectResourceId": 1
+    }
+
+    
+]

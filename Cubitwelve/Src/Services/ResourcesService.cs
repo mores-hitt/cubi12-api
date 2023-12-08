@@ -25,5 +25,21 @@ namespace Cubitwelve.Src.Services
             }).ToList();
             return mappedSubjects;
         }
+
+        public async Task<List<ResourceDto>> GetSubjectResourceById(int id)
+        {
+            var subjectResources = await _unitOfWork.ResourcesRepository.GetAllResources(id);
+
+            var mappedSubjects = subjectResources.Select(subject => new ResourceDto
+            {
+                Id = subject.Id,
+                Type = subject.Type,
+                TypeCode = subject.TypeCode,
+                Url = subject.Url,
+                SubjectResourceId = subject.SubjectResourceId
+            }).ToList();
+
+            return mappedSubjects;
+        }
     }
 }
