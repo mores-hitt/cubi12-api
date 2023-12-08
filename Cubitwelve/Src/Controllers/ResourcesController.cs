@@ -1,10 +1,8 @@
 using Cubitwelve.Src.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cubitwelve.Src.Controllers
 {
-    [AllowAnonymous]
     public class ResourcesController : BaseAuthApiController
     {
         private readonly IResourcesService _resourceService;
