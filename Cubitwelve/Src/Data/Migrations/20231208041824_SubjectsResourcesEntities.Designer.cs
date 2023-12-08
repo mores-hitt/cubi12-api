@@ -4,6 +4,7 @@ using Cubitwelve.Src.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cubitwelve.Src.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231208041824_SubjectsResourcesEntities")]
+    partial class SubjectsResourcesEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -352,7 +355,7 @@ namespace Cubitwelve.Src.Data.Migrations
             modelBuilder.Entity("Cubitwelve.Src.Models.Resource", b =>
                 {
                     b.HasOne("Cubitwelve.Src.Models.SubjectResource", "SubjectResource")
-                        .WithMany("Resources")
+                        .WithMany()
                         .HasForeignKey("SubjectResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -396,11 +399,6 @@ namespace Cubitwelve.Src.Data.Migrations
                     b.Navigation("Subject");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Cubitwelve.Src.Models.SubjectResource", b =>
-                {
-                    b.Navigation("Resources");
                 });
 #pragma warning restore 612, 618
         }

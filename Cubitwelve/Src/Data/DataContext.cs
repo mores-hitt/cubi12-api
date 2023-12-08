@@ -17,6 +17,10 @@ namespace Cubitwelve.Src.Data
 
         public DbSet<Career> Careers { get; set; } = null!;
 
+        public DbSet<SubjectResource> SubjectResources { get; set; } = null!;
+
+        public DbSet<Resource> Resources { get; set; } = null!;
+
         public DataContext(DbContextOptions options) : base(options)
         {
         }
