@@ -48,9 +48,9 @@ namespace Cubitwelve.Src.Controllers
 
         [Authorize]
         [HttpPatch("my-progress")]
-        public async Task<IActionResult> SetUserProgress([FromBody] List<UpdateSubjectProgressDto> subjects)
+        public async Task<IActionResult> SetUserProgress([FromBody] UpdateUserProgressDto subjectsProgress)
         {
-            await _usersService.SetUserProgress(subjects);
+            await _usersService.SetUserProgress(subjectsProgress);
             return NoContent();
         }
     }

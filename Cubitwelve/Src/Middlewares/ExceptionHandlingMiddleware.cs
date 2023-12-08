@@ -51,7 +51,8 @@ namespace Cubitwelve.Src.Middlewares
             { typeof(DuplicateUserException), (ErrorMessages.DuplicateUser, 400) },
             { typeof(DisabledUserException), (ErrorMessages.DisabledUser, 400)},
             { typeof(InternalErrorException), (ErrorMessages.InternalServerError, 500)},
-            {typeof(UnauthorizedAccessException), (ErrorMessages.UnauthorizedAccess, 401)}
+            {typeof(UnauthorizedAccessException), (ErrorMessages.UnauthorizedAccess, 401)},
+            {typeof(DuplicateEntityException), (ErrorMessages.EntityDuplicated, 409)}
         };
 
         private async Task GenerateHttpResponse(

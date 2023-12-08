@@ -21,7 +21,6 @@ namespace Cubitwelve.Src.Services.Interfaces
 
         public Task<List<UserProgressDto>> GetUserProgress();
 
-        public Task SetUserProgress(List<UpdateSubjectProgressDto> subjects);
-        
+        public Task SetUserProgress(UpdateUserProgressDto subjects);
     }
 }
