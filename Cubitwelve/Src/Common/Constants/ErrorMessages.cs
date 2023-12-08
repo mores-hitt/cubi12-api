@@ -15,5 +15,7 @@ namespace Cubitwelve.Src.Common.Constants
         public const string DisabledUser = "User is not enabled - Contact an administrator";
 
         public const string UnauthorizedAccess = "Unauthorized access";
+        
+        public const string EntityDuplicated = "The entity already exists";
     }
 }

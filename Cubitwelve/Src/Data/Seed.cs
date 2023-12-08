@@ -37,6 +37,8 @@ namespace Cubitwelve.Src.Data
             SeedRoles(context, options);
             SeedSubjects(context, options);
             SeedCareers(context, options);
+            SeedSubjectResources(context, options);
+            SeedResources(context, options);
         }
 
         /// <summary>
@@ -139,6 +141,44 @@ namespace Cubitwelve.Src.Data
             });
 
             context.SubjectsRelationships?.AddRange(subjectsRelationshipsList);
+            context.SaveChanges();
+        }
+
+        private static void SeedSubjectResources(DataContext context, JsonSerializerOptions options)
+        {
+            var result = context.SubjectResources?.Any();
+            if (result is true or null) return;
+            var path = "Src/Data/DataSeeders/SubjectsResourcesData.json";
+            var subjectResourcesData = File.ReadAllText(path);
+            var subjectResourcesList = JsonSerializer
+                .Deserialize<List<SubjectResource>>(subjectResourcesData, options) ??
+                throw new Exception("SubjectsResourcesData.json is empty");
+            subjectResourcesList.ForEach(s =>
+            {
+                s.Name = s.Name.ToLower();
+                s.Description = s.Description.ToLower();
+            });
+
+            context.SubjectResources?.AddRange(subjectResourcesList);
+            context.SaveChanges();
+        }
+
+        private static void SeedResources(DataContext context, JsonSerializerOptions options)
+        {
+            var result = context.Resources?.Any();
+            if (result is true or null) return;
+            var path = "Src/Data/DataSeeders/ResourcesData.json";
+            var resourcesData = File.ReadAllText(path);
+            var resourcesList = JsonSerializer
+                .Deserialize<List<Resource>>(resourcesData, options) ??
+                throw new Exception("ResourcesData.json is empty");
+            resourcesList.ForEach(s =>
+            {
+                s.Type = s.Type.ToLower();
+                s.Url = s.Url.ToLower();
+            });
+
+            context.Resources?.AddRange(resourcesList);
             context.SaveChanges();
         }
 

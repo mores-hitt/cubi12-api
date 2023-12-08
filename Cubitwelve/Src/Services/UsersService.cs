@@ -91,45 +91,43 @@ namespace Cubitwelve.Src.Services
 
             return mappedProgress;
         }
-        
-        public async Task SetUserProgress(List<UpdateSubjectProgressDto> subjects)
+
+
+        public async Task SetUserProgress(UpdateUserProgressDto subjects)
         {
-            // Get all subjects Id and validate if each one exists
             var subjectsId = await MapAndValidateToSubjectId(subjects);
+            var subjectsToAdd = subjectsId.Item1;
+            var subjectsToDelete = subjectsId.Item2;
 
             var userId = await GetUserIdByToken();
             // Get Current User Progress
             var userProgress = await _unitOfWork.UsersRepository.GetProgressByUser(userId) ?? new List<UserProgress>();
 
-            var progressToAdd = new List<UserProgress>();
-            var progressToRemove = new List<UserProgress>();
-
-            subjectsId.ForEach(s =>
+            var progressToAdd = subjectsToAdd.Select(s =>
             {
-                var userSubject = userProgress.FirstOrDefault(u => u.SubjectId == s.Item1);
-                if (userSubject is null && s.Item2)
-                {
-                    progressToAdd.Add(new UserProgress
-                    {
-                        UserId = userId,
-                        SubjectId = s.Item1,
-                    });
-                }
-                else if (userSubject is not null && !s.Item2)
-                {
-                    progressToRemove.Add(new UserProgress
-                    {
-                        UserId = userId,
-                        SubjectId = s.Item1,
-                    });
-                }
-                else
-                {
-                    // TODO: Replace with new custom exception
-                    throw new Exception($"Cannot add or remove subject with ID: {s.Item1}");
-                }
-            });
+                var foundUserProgress = userProgress.FirstOrDefault(up => up.SubjectId == s);
 
+                if (foundUserProgress is not null)
+                    throw new DuplicateEntityException($"Subject with ID: {foundUserProgress.Subject.Code} already exists");
+
+                return new UserProgress()
+                {
+                    SubjectId = s,
+                    UserId = userId,
+                };
+            }).ToList();
+
+            var progressToRemove = subjectsToDelete.Select(s =>
+            {
+                if (userProgress.FirstOrDefault(up => up.SubjectId == s) is null)
+                    throw new EntityNotFoundException($"Subject with ID: {s} not found");
+
+                return new UserProgress()
+                {
+                    SubjectId = s,
+                    UserId = userId,
+                };
+            }).ToList();
 
             var addResult = await _unitOfWork.UsersRepository.AddProgress(progressToAdd);
             var removeResult = await _unitOfWork.UsersRepository.RemoveProgress(progressToRemove, userId);
@@ -138,27 +136,80 @@ namespace Cubitwelve.Src.Services
                 throw new InternalErrorException("Cannot update user progress");
         }
 
-        /// <summary>
-        /// Validate if the subjects exists in the database based on the subjectId and then retrieve the entities
-        /// </summary>
-        /// <param name="subjects">UpdateSubjectProgressDto to check</param>
-        /// <returns>Async Task</returns>
-        /// <exception cref="EntityNotFoundException">If any subject do not exists</exception> <summary>
-        private async Task<List<Tuple<int, bool>>> MapAndValidateToSubjectId(List<UpdateSubjectProgressDto> subjects)
-        {
-            var allSubjects = await _unitOfWork.SubjectsRepository.Get();
-            var mappedSubjects = subjects.Select(s =>
-            {
-                if (allSubjects.FirstOrDefault(sub => sub.Id == s.SubjectId) is null)
-                    throw new EntityNotFoundException($"Subject with ID: {s.SubjectId} not found");
-                return new Tuple<int, bool>(s.SubjectId, s.IsAdded);
-            }).ToList();
+        // public async Task SetUserProgress(List<UpdateSubjectProgressDto> subjects)
+        // {
+        //     // Get all subjects Id and validate if each one exists
+        //     var subjectsId = await MapAndValidateToSubjectId(subjects);
 
-            return mappedSubjects;
-        }
+        //     var userId = await GetUserIdByToken();
+        //     // Get Current User Progress
+        //     var userProgress = await _unitOfWork.UsersRepository.GetProgressByUser(userId) ?? new List<UserProgress>();
+
+        //     var progressToAdd = new List<UserProgress>();
+        //     var progressToRemove = new List<UserProgress>();
+
+        //     subjectsId.ForEach(s =>
+        //     {
+        //         var userSubject = userProgress.FirstOrDefault(u => u.SubjectId == s.Item1);
+        //         if (userSubject is null && s.Item2)
+        //         {
+        //             progressToAdd.Add(new UserProgress
+        //             {
+        //                 UserId = userId,
+        //                 SubjectId = s.Item1,
+        //             });
+        //         }
+        //         else if (userSubject is not null && !s.Item2)
+        //         {
+        //             progressToRemove.Add(new UserProgress
+        //             {
+        //                 UserId = userId,
+        //                 SubjectId = s.Item1,
+        //             });
+        //         }
+        //         else
+        //         {
+        //             // TODO: Replace with new custom exception
+        //             throw new Exception($"Cannot add or remove subject with ID: {s.Item1}");
+        //         }
+        //     });
+
+
+        //     var addResult = await _unitOfWork.UsersRepository.AddProgress(progressToAdd);
+        //     var removeResult = await _unitOfWork.UsersRepository.RemoveProgress(progressToRemove, userId);
+
+        //     if (!removeResult && !addResult)
+        //         throw new InternalErrorException("Cannot update user progress");
+        // }
 
 
         #region PRIVATE_METHODS
+
+        private async Task<Tuple<List<int>, List<int>>> MapAndValidateToSubjectId(UpdateUserProgressDto subjects)
+        {
+            var allSubjects = await _unitOfWork.SubjectsRepository.Get();
+            var subjectsToAdd = subjects.AddSubjects;
+            var subjectsToDelete = subjects.DeleteSubjects;
+
+            var mappedSubjectsToAdd = subjectsToAdd.Select(s =>
+            {
+                s = s.ToLower();
+                var foundSubject = allSubjects.FirstOrDefault(sub => sub.Code == s)
+                    ?? throw new EntityNotFoundException($"Subject with ID: {s} not found");
+                return foundSubject.Id;
+            }).ToList();
+
+            var mappedSubjectsToDelete = subjectsToDelete.Select(s =>
+            {
+                s = s.ToLower();
+                var foundSubject = allSubjects.FirstOrDefault(sub => sub.Code == s)
+                    ?? throw new EntityNotFoundException($"Subject with ID: {s} not found");
+                return foundSubject.Id;
+            }).ToList();
+
+            return new Tuple<List<int>, List<int>>(mappedSubjectsToAdd, mappedSubjectsToDelete);
+
+        }
 
         private async Task<User> GetUserByEmail(string email)
         {
