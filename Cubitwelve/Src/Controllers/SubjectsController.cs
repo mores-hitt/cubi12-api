@@ -1,8 +1,7 @@
-using Cubitwelve.Src.DTOs.Progress;
 using Cubitwelve.Src.DTOs.Subjects;
 using Cubitwelve.Src.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace Cubitwelve.Src.Controllers
 {
@@ -15,6 +14,7 @@ namespace Cubitwelve.Src.Controllers
             _subjectsService = subjectsService;
         }
 
+        [OutputCache]
         [HttpGet]
         public async Task<ActionResult<List<SubjectDto>>> GetAll()
         {
@@ -28,7 +28,8 @@ namespace Cubitwelve.Src.Controllers
             var relationships = await _subjectsService.GetAllRelationships();
             return Ok(relationships);
         }
-
+        
+        [OutputCache]
         [HttpGet("prerequisites-map")]
         public async Task<ActionResult<Dictionary<string, List<string>>>> GetAllPreRequisitesMap()
         {
@@ -36,6 +37,7 @@ namespace Cubitwelve.Src.Controllers
             return Ok(preRequisitesMap);
         }
 
+        [OutputCache]
         [HttpGet("postrequisites-map")]
         public async Task<ActionResult<Dictionary<string, List<string>>>> GetAllPostRequisitesMap()
         {
