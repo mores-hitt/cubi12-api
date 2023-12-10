@@ -136,53 +136,6 @@ namespace Cubitwelve.Src.Services
                 throw new InternalErrorException("Cannot update user progress");
         }
 
-        // public async Task SetUserProgress(List<UpdateSubjectProgressDto> subjects)
-        // {
-        //     // Get all subjects Id and validate if each one exists
-        //     var subjectsId = await MapAndValidateToSubjectId(subjects);
-
-        //     var userId = await GetUserIdByToken();
-        //     // Get Current User Progress
-        //     var userProgress = await _unitOfWork.UsersRepository.GetProgressByUser(userId) ?? new List<UserProgress>();
-
-        //     var progressToAdd = new List<UserProgress>();
-        //     var progressToRemove = new List<UserProgress>();
-
-        //     subjectsId.ForEach(s =>
-        //     {
-        //         var userSubject = userProgress.FirstOrDefault(u => u.SubjectId == s.Item1);
-        //         if (userSubject is null && s.Item2)
-        //         {
-        //             progressToAdd.Add(new UserProgress
-        //             {
-        //                 UserId = userId,
-        //                 SubjectId = s.Item1,
-        //             });
-        //         }
-        //         else if (userSubject is not null && !s.Item2)
-        //         {
-        //             progressToRemove.Add(new UserProgress
-        //             {
-        //                 UserId = userId,
-        //                 SubjectId = s.Item1,
-        //             });
-        //         }
-        //         else
-        //         {
-        //             // TODO: Replace with new custom exception
-        //             throw new Exception($"Cannot add or remove subject with ID: {s.Item1}");
-        //         }
-        //     });
-
-
-        //     var addResult = await _unitOfWork.UsersRepository.AddProgress(progressToAdd);
-        //     var removeResult = await _unitOfWork.UsersRepository.RemoveProgress(progressToRemove, userId);
-
-        //     if (!removeResult && !addResult)
-        //         throw new InternalErrorException("Cannot update user progress");
-        // }
-
-
         #region PRIVATE_METHODS
 
         private async Task<Tuple<List<int>, List<int>>> MapAndValidateToSubjectId(UpdateUserProgressDto subjects)
