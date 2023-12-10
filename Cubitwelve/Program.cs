@@ -26,7 +26,9 @@ builder.Services.AddCors(options =>
                                 .WithOrigins("https://cubi12.azurewebsites.net",
                                             "https://cubi12.cl",
                                             "https://www.cubi12.cl",
-                                            "http://localhost:8100", "https://localhost:8100" // Needed by Ionic
+                                            "http://localhost", "https://localhost",
+                                            "http://localhost:80", "https://localhost:80",// Needed by Ionic
+                                            "http://localhost:443", "https://localhost:443"
                                             );
                       });
 });
