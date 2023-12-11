@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cubitwelve.Src.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231208041824_SubjectsResourcesEntities")]
-    partial class SubjectsResourcesEntities
+    [Migration("20231211053913_FirstDeployEntities")]
+    partial class FirstDeployEntities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -355,7 +355,7 @@ namespace Cubitwelve.Src.Data.Migrations
             modelBuilder.Entity("Cubitwelve.Src.Models.Resource", b =>
                 {
                     b.HasOne("Cubitwelve.Src.Models.SubjectResource", "SubjectResource")
-                        .WithMany()
+                        .WithMany("Resources")
                         .HasForeignKey("SubjectResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -399,6 +399,11 @@ namespace Cubitwelve.Src.Data.Migrations
                     b.Navigation("Subject");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Cubitwelve.Src.Models.SubjectResource", b =>
+                {
+                    b.Navigation("Resources");
                 });
 #pragma warning restore 612, 618
         }

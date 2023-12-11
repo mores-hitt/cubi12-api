@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cubitwelve.Src.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class FirstDeployEntities : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -44,6 +44,25 @@ namespace Cubitwelve.Src.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SubjectResources",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Semester = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Version = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubjectResources", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -123,6 +142,32 @@ namespace Cubitwelve.Src.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Resources",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TypeCode = table.Column<int>(type: "int", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SubjectResourceId = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Version = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Resources", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Resources_SubjectResources_SubjectResourceId",
+                        column: x => x.SubjectResourceId,
+                        principalTable: "SubjectResources",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UsersProgress",
                 columns: table => new
                 {
@@ -153,6 +198,11 @@ namespace Cubitwelve.Src.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Resources_SubjectResourceId",
+                table: "Resources",
+                column: "SubjectResourceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_CareerId",
                 table: "Users",
                 column: "CareerId");
@@ -177,10 +227,16 @@ namespace Cubitwelve.Src.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Resources");
+
+            migrationBuilder.DropTable(
                 name: "SubjectsRelationships");
 
             migrationBuilder.DropTable(
                 name: "UsersProgress");
+
+            migrationBuilder.DropTable(
+                name: "SubjectResources");
 
             migrationBuilder.DropTable(
                 name: "Subjects");
