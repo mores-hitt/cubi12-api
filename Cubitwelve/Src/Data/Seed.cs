@@ -175,7 +175,6 @@ namespace Cubitwelve.Src.Data
             resourcesList.ForEach(s =>
             {
                 s.Type = s.Type.ToLower();
-                s.Url = s.Url.ToLower();
             });
 
             context.Resources?.AddRange(resourcesList);
