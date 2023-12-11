@@ -25,7 +25,11 @@ builder.Services.AddCors(options =>
                                 .AllowCredentials()
                                 .WithOrigins("https://cubi12.azurewebsites.net",
                                             "https://cubi12.cl",
-                                            "https://www.cubi12.cl");
+                                            "https://www.cubi12.cl",
+                                            "http://localhost", "https://localhost",
+                                            "http://localhost:80", "https://localhost:80",// Needed by Ionic
+                                            "http://localhost:443", "https://localhost:443"
+                                            );
                       });
 });
 
@@ -35,11 +39,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApplicationServices(builder.Configuration);
 
+builder.Services.AddOutputCache(options =>
+{
+    options.AddBasePolicy(builder => builder.Cache());
+});
+
 var app = builder.Build();
+app.UseOutputCache();
+
 
 // Because it's the first middleware, it will catch all exceptions
 app.UseExceptionHandling();
-
 
 if (app.Environment.IsDevelopment())
 {
