@@ -65,7 +65,7 @@ else
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseIsUserEnabled();
+// app.UseIsUserEnabled();
 
 app.UseHttpsRedirection();
 

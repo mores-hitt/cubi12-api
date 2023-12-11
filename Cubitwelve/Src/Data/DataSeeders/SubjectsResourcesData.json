@@ -1,42 +1,338 @@
 ﻿[
   {
-    "Name": "Cálculo 1",
-    "Description": "Curso fundamental de cálculo que aborda conceptos esenciales para entender y aplicar las matemáticas en diversos contextos. Introduce herramientas clave para resolver problemas matemáticos en la ingeniería y ciencias.",
-    "Semester": 1
-  },
-  {
-    "Name": "Álgebra 1",
-    "Description": "Curso introductorio de álgebra que proporciona las bases teóricas y prácticas para comprender y resolver problemas algebraicos. Explora aplicaciones en el análisis de datos y modelado matemático.",
-    "Semester": 1
-  },
-  {
     "Name": "Introducción a la física",
     "Description": "Curso que presenta los principios fundamentales de la física, destacando la aplicación de teorías a situaciones del mundo real. Proporciona una base sólida para futuros estudios en ciencias físicas.",
     "Semester": 1
   },
   {
+    "Name": "Cálculo I",
+    "Description": "Curso que aborda los conceptos fundamentales del cálculo, proporcionando las herramientas necesarias para el análisis matemático y la resolución de problemas aplicados.",
+    "Semester": 1
+  },
+  {
+    "Name": "Álgebra I",
+    "Description": "Curso introductorio de álgebra que proporciona las bases teóricas y prácticas para comprender y resolver problemas algebraicos. Explora aplicaciones en el análisis de datos y modelado matemático.",
+    "Semester": 1
+  },
+  {
+    "Name": "Identidad, universidad, equidad y género",
+    "Description": "Curso que aborda temas de identidad, equidad y género en el contexto universitario, explorando su importancia en la formación académica y social.",
+    "Semester": 1
+  },
+  {
+    "Name": "Inglés I",
+    "Description": "Curso de inglés enfocado en el desarrollo de habilidades comunicativas. Cubre aspectos gramaticales, vocabulario y práctica oral.",
+    "Semester": 1
+  },
+  {
+    "Name": "Formación general electiva",
+    "Description": "Curso que ofrece opciones diversas para la formación académica, permitiendo a los estudiantes explorar áreas de interés fuera de su especialidad principal.",
+    "Semester": 1
+  },
+  {
+    "Name": "Proyecto Introducción a la ingeniería",
+    "Description": "Proyecto que introduce a los estudiantes a la ingeniería, aplicando conocimientos adquiridos en cursos anteriores para resolver problemas prácticos. Fomenta el trabajo en equipo y la aplicación práctica de conceptos.",
+    "Semester": 1
+  },
+
+
+
+
+
+
+  {
+    "Name": "Mecánica",
+    "Description": "Curso que aborda los principios fundamentales de la mecánica, explorando conceptos como cinemática, dinámica y energía. Aplicación de teorías a problemas prácticos.",
+    "Semester": 2
+  },
+  {
     "Name": "Cálculo II",
-    "Description": "Curso avanzado de cálculo que profundiza en conceptos clave, como integrales y derivadas, y explora aplicaciones prácticas en campos como la ingeniería y la física. Requiere conocimientos previos de cálculo.",
+    "Description": "Curso que amplía los conceptos de cálculo integral y sus aplicaciones. Explora técnicas avanzadas de integración y series infinitas.",
     "Semester": 2
   },
   {
     "Name": "Álgebra II",
-    "Description": "Curso avanzado de álgebra que expande los conocimientos adquiridos en álgebra 1. Se centra en aplicaciones avanzadas, incluido el álgebra lineal, con énfasis en problemas del mundo real.",
-    "Semester": 2
-  },
-  {
-    "Name": "Mecánica",
-    "Description": "Curso que explora los principios fundamentales de la mecánica clásica. Proporciona una comprensión profunda de los movimientos y fuerzas, con aplicaciones prácticas en la ingeniería y la física aplicada.",
+    "Description": "Curso que profundiza en los conceptos de álgebra lineal y sus aplicaciones. Explora matrices, determinantes y sistemas de ecuaciones lineales.",
     "Semester": 2
   },
   {
     "Name": "Programación",
-    "Description": "Curso introductorio a la programación que enseña los fundamentos de la lógica de programación y resolución de problemas algorítmicos. Utiliza un enfoque práctico con aplicaciones relevantes en la informática y la tecnología.",
+    "Description": "Curso introductorio a la programación, abordando conceptos fundamentales y técnicas de resolución de problemas. Desarrollo de habilidades prácticas en la implementación de algoritmos.",
     "Semester": 2
   },
   {
-    "Name": "Química General",
-    "Description": "Curso introductorio de química que cubre los principios esenciales de la química. Se enfoca en comprender la estructura de la materia y las reacciones químicas, con aplicaciones en la industria y la investigación.",
+    "Name": "Comunicación efectiva I",
+    "Description": "Curso que desarrolla habilidades de comunicación oral y escrita. Enfocado en la expresión clara de ideas y argumentos.",
     "Semester": 2
+  },
+  {
+    "Name": "Inglés II",
+    "Description": "Curso de inglés que avanza en el desarrollo de habilidades comunicativas. Enfoque en la comprensión auditiva y expresión oral.",
+    "Semester": 2
+  },
+
+
+
+
+  {
+    "Name": "Ecuaciones diferenciales",
+    "Description": "Curso que aborda el estudio de ecuaciones diferenciales y sus aplicaciones en diversos campos. Desarrollo de técnicas para resolver problemas prácticos.",
+    "Semester": 3
+  },
+  {
+    "Name": "Cálculo III",
+    "Description": "Curso avanzado que explora conceptos de cálculo multivariable, incluyendo integrales múltiples y teorema de Stokes. Aplicaciones en el análisis matemático.",
+    "Semester": 3
+  },
+  {
+    "Name": "Química general",
+    "Description": "Curso introductorio que aborda los principios fundamentales de la química. Enfoque en la comprensión de la estructura de la materia y las reacciones químicas.",
+    "Semester": 3
+  },
+  {
+    "Name": "Programación orientada a objetos",
+    "Description": "Curso que introduce los principios de la programación orientada a objetos. Desarrollo de habilidades en el diseño y desarrollo de software modular.",
+    "Semester": 3
+  },
+  {
+    "Name": "Técnicas y metodologías de programación avanzada",
+    "Description": "Curso que profundiza en técnicas avanzadas de programación. Explora metodologías efectivas en el desarrollo de software y la resolución de problemas complejos.",
+    "Semester": 3
+  },
+  {
+    "Name": "Comunicación efectiva II",
+    "Description": "Curso que avanza en el desarrollo de habilidades de comunicación oral y escrita. Enfocado en la argumentación y expresión efectiva de ideas.",
+    "Semester": 3
+  },
+  {
+    "Name": "Diálogo, fe y cultura",
+    "Description": "Curso que explora las intersecciones entre la fe, la cultura y el diálogo. Reflexión crítica sobre cuestiones éticas y sociales.",
+    "Semester": 3
+  },
+
+
+
+
+  {
+    "Name": "Electro Magnetismo",
+    "Description": "Curso que aborda los principios del electromagnetismo, incluyendo leyes fundamentales y aplicaciones prácticas. Desarrollo de comprensión teórica y habilidades prácticas.",
+    "Semester": 4
+  },
+  {
+    "Name": "Estadística",
+    "Description": "Curso que introduce conceptos estadísticos y técnicas de análisis. Aplicación de la estadística en la interpretación de datos y la toma de decisiones.",
+    "Semester": 4
+  },
+  {
+    "Name": "Ingeniería y desarrollo sustentable",
+    "Description": "Curso que explora los principios de ingeniería aplicados al desarrollo sustentable. Análisis de impacto ambiental y social en proyectos de ingeniería.",
+    "Semester": 4
+  },
+  {
+    "Name": "Emprendimiento",
+    "Description": "Curso que fomenta el espíritu emprendedor. Desarrollo de habilidades para la identificación y desarrollo de oportunidades de negocio.",
+    "Semester": 4
+  },
+  {
+    "Name": "Estructuras de datos",
+    "Description": "Curso que aborda las estructuras de datos y su implementación. Desarrollo de habilidades en el diseño eficiente de algoritmos y gestión de datos.",
+    "Semester": 4
+  },
+  {
+    "Name": "Proyecto diseño e innovación",
+    "Description": "Proyecto que integra conceptos de diseño e innovación en ingeniería. Aplicación práctica de conocimientos adquiridos en cursos anteriores.",
+    "Semester": 4
+  },
+
+
+
+  {
+    "Name": "Electrotecnia",
+    "Description": "Curso que aborda los principios de la electrotecnia, incluyendo circuitos eléctricos y sistemas electromagnéticos. Aplicación práctica en el análisis y diseño de sistemas eléctricos.",
+    "Semester": 5
+  },
+  {
+    "Name": "Introducción a Data Science",
+    "Description": "Curso introductorio a la ciencia de datos. Explora conceptos fundamentales en el manejo, análisis y visualización de datos. Aplicación de técnicas en casos prácticos.",
+    "Semester": 5
+  },
+  {
+    "Name": "Diseño de sistemas digitales",
+    "Description": "Curso que introduce los principios del diseño de sistemas digitales. Desarrollo de habilidades en la construcción y análisis de circuitos digitales.",
+    "Semester": 5
+  },
+  {
+    "Name": "Bases de datos",
+    "Description": "Curso que aborda conceptos fundamentales de bases de datos. Diseño, implementación y gestión de sistemas de almacenamiento de datos.",
+    "Semester": 5
+  },
+  {
+    "Name": "Electivo profesional I",
+    "Description": "Curso electivo que permite al estudiante profundizar en áreas específicas de interés. Explora temas avanzados relacionados con la ingeniería de sistemas y computación.",
+    "Semester": 5
+  },
+  {
+    "Name": "Proyecto integrador programación avanzada",
+    "Description": "Proyecto que integra conceptos de programación avanzada. Desarrollo de soluciones prácticas mediante el uso de técnicas y metodologías avanzadas.",
+    "Semester": 5
+  },
+
+
+
+
+
+  {
+    "Name": "Arquitectura y organización de computadores",
+    "Description": "Curso que explora los principios de la arquitectura y organización de computadores. Incluye el estudio de la estructura interna de las computadoras y su relación con el software.",
+    "Semester": 6
+  },
+  {
+    "Name": "Fundamentos de la computación",
+    "Description": "Curso que cubre los conceptos fundamentales de la ciencia de la computación. Incluye temas como algoritmos, estructuras de datos y complejidad computacional.",
+    "Semester": 6
+  },
+  {
+    "Name": "Introducción al desarrollo web/Móvil",
+    "Description": "Curso introductorio al desarrollo de aplicaciones web y móviles. Explora tecnologías y herramientas para la creación de sitios y aplicaciones.",
+    "Semester": 6
+  },
+  {
+    "Name": "Ingeniería de software",
+    "Description": "Curso que aborda los principios y prácticas de la ingeniería de software. Desarrollo de habilidades en el diseño, implementación y mantenimiento de software de calidad.",
+    "Semester": 6
+  },
+  {
+    "Name": "Electivo profesional II",
+    "Description": "Curso electivo que permite al estudiante explorar áreas específicas de interés en la ingeniería de sistemas y computación.",
+    "Semester": 6
+  },
+  {
+    "Name": "Proyecto Integrador software",
+    "Description": "Proyecto que integra conceptos de ingeniería de software. Desarrollo de soluciones prácticas mediante la aplicación de metodologías y herramientas de desarrollo.",
+    "Semester": 6
+  },
+
+
+
+
+
+  {
+    "Name": "Sistemas de información I",
+    "Description": "Curso que introduce los fundamentos de los sistemas de información. Incluye el estudio de bases de datos, redes y aspectos organizacionales.",
+    "Semester": 7
+  },
+  {
+    "Name": "Lenguajes de programación",
+    "Description": "Curso que explora diversos lenguajes de programación y sus aplicaciones. Desarrollo de habilidades en la selección y uso de lenguajes para diferentes propósitos.",
+    "Semester": 7
+  },
+  {
+    "Name": "Diseño y análisis de algoritmos",
+    "Description": "Curso que cubre técnicas avanzadas de diseño y análisis de algoritmos. Aplicación de algoritmos en la resolución de problemas complejos.",
+    "Semester": 7
+  },
+  {
+    "Name": "Sistemas operativos",
+    "Description": "Curso que aborda los principios y funciones de los sistemas operativos. Incluye el estudio de la gestión de recursos y la interfaz entre hardware y software.",
+    "Semester": 7
+  },
+  {
+    "Name": "Electivo profesional III",
+    "Description": "Curso electivo que permite al estudiante explorar áreas específicas de interés en la ingeniería de sistemas y computación.",
+    "Semester": 7
+  },
+  {
+    "Name": "Diálogo, fe y ciencia",
+    "Description": "Curso que examina la interacción entre la fe, la ciencia y la tecnología. Exploración de cuestiones éticas y filosóficas relacionadas con la tecnología.",
+    "Semester": 7
+  },
+  {
+    "Name": "Proyecto integrador plataformas",
+    "Description": "Proyecto que integra conceptos de plataformas informáticas. Desarrollo de soluciones prácticas mediante la aplicación de tecnologías de plataformas.",
+    "Semester": 7
+  },
+
+
+
+  {
+    "Name": "Sistemas de información II",
+    "Description": "Curso que aborda aspectos avanzados de los sistemas de información. Incluye temas como bases de datos distribuidas, seguridad informática y análisis de sistemas.",
+    "Semester": 8
+  },
+  {
+    "Name": "Gestión de proyectos TI",
+    "Description": "Curso que cubre los principios de la gestión de proyectos en tecnologías de la información. Incluye planificación, ejecución y control de proyectos TI.",
+    "Semester": 8
+  },
+  {
+    "Name": "Arquitectura de sistemas",
+    "Description": "Curso que explora la arquitectura de sistemas informáticos. Incluye el diseño y la implementación de arquitecturas para satisfacer requisitos específicos.",
+    "Semester": 8
+  },
+  {
+    "Name": "Redes de computadores",
+    "Description": "Curso que aborda los fundamentos de las redes de computadoras. Incluye el diseño, implementación y gestión de redes de comunicación.",
+    "Semester": 8
+  },
+  {
+    "Name": "Electivo profesional IV",
+    "Description": "Curso electivo que permite al estudiante explorar áreas específicas de interés en la ingeniería de sistemas y computación.",
+    "Semester": 8
+  },
+  {
+    "Name": "Ética y moral profesional",
+    "Description": "Curso que examina cuestiones éticas y morales relacionadas con la profesión de ingeniería de sistemas y computación.",
+    "Semester": 8
+  },
+  {
+    "Name": "Proyecto integrador gestión TI",
+    "Description": "Proyecto que integra conceptos de gestión de tecnologías de la información. Desarrollo de soluciones prácticas en el contexto de la gestión.",
+    "Semester": 8
+  },
+
+  
+
+
+
+  {
+    "Name": "Evaluación de proyectos TI",
+    "Description": "Curso que explora las técnicas y metodologías para evaluar proyectos de tecnologías de la información. Incluye análisis de viabilidad y riesgos.",
+    "Semester": 9
+  },
+  {
+    "Name": "Electivo profesional V",
+    "Description": "Curso electivo que permite al estudiante explorar áreas específicas de interés en la ingeniería de sistemas y computación.",
+    "Semester": 9
+  },
+  {
+    "Name": "Electivo profesional VI",
+    "Description": "Curso electivo que permite al estudiante explorar áreas específicas de interés en la ingeniería de sistemas y computación.",
+    "Semester": 9
+  },
+  {
+    "Name": "Electivo profesional VII",
+    "Description": "Curso electivo que permite al estudiante explorar áreas específicas de interés en la ingeniería de sistemas y computación.",
+    "Semester": 9
+  },
+  {
+    "Name": "Electivo profesional VIII",
+    "Description": "Curso electivo que permite al estudiante explorar áreas específicas de interés en la ingeniería de sistemas y computación.",
+    "Semester": 9
+  },
+  {
+    "Name": "Electivo profesional IX",
+    "Description": "Curso electivo que permite al estudiante explorar áreas específicas de interés en la ingeniería de sistemas y computación.",
+    "Semester": 9
+  },
+
+  
+
+
+
+  {
+    "Name": "Capstone project",
+    "Description": "Proyecto final que integra y aplica los conocimientos adquiridos durante la carrera. Desarrollo de un proyecto significativo en el campo de la ingeniería de sistemas y computación.",
+    "Semester": 10
   }
+  
 ]
